@@ -37,7 +37,7 @@ const PERSONAL_INFO: PersonalInfo = {
 };
 
 const SOCIAL_LINKS: SocialLinks = {
-  github: 'https://github.com',
+  github: 'https://github.com/JAGADISHSUNILPEDNEKAR',
   linkedin: 'https://linkedin.com',
   twitter: 'https://twitter.com'
 };
