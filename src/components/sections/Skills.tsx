@@ -4,82 +4,72 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 
-// Skills data structure matching the image
+// ✅ Skills Data with real logos from skillicons.dev
 const SKILLS_DATA = {
   "Language Skills": [
-    { name: 'Java', icon: '☕', color: '#f89820' },
-    { name: 'JavaScript', icon: 'JS', color: '#f7df1e' },
-    { name: 'TypeScript', icon: 'TS', color: '#3178c6' },
-    { name: 'C', icon: 'C', color: '#00599c' },
-    { name: 'C++', icon: 'C++', color: '#00599c' },
-    { name: 'Python', icon: '🐍', color: '#3776ab' },
-    { name: 'Dart', icon: '🎯', color: '#0175c2' },
-    { name: 'Go', icon: 'Go', color: '#00add8' },
-    { name: 'Rust', icon: '🦀', color: '#dea584' },
-    { name: 'Kotlin', icon: 'Kt', color: '#7f52ff' }
+    { name: 'Java', icon: 'https://skillicons.dev/icons?i=java' },
+    { name: 'JavaScript', icon: 'https://skillicons.dev/icons?i=javascript' },
+    { name: 'TypeScript', icon: 'https://skillicons.dev/icons?i=typescript' },
+    { name: 'C', icon: 'https://skillicons.dev/icons?i=c' },
+    { name: 'C++', icon: 'https://skillicons.dev/icons?i=cpp' },
+    { name: 'Python', icon: 'https://skillicons.dev/icons?i=python' },
+    { name: 'Dart', icon: 'https://skillicons.dev/icons?i=dart' },
+    { name: 'Go', icon: 'https://skillicons.dev/icons?i=go' },
+    { name: 'Rust', icon: 'https://skillicons.dev/icons?i=rust' },
+    { name: 'Kotlin', icon: 'https://skillicons.dev/icons?i=kotlin' }
   ],
   "Frameworks": [
-    { name: 'React', icon: '⚛️', color: '#61dafb' },
-    { name: 'Next.js', icon: 'N', color: '#000000' },
-    { name: 'AWS', icon: '☁️', color: '#ff9900' },
-    { name: 'Node.js', icon: '📗', color: '#339933' },
-    { name: 'Svelte', icon: 'S', color: '#ff3e00' },
-    { name: 'Vue', icon: 'V', color: '#4fc08d' },
-    { name: 'Polygon', icon: '⬟', color: '#8247e5' },
-    { name: 'Cargo', icon: '📦', color: '#dea584' },
-    { name: 'Django', icon: '🎸', color: '#092e20' },
-    { name: 'GraphQL', icon: '◈', color: '#e10098' },
-    { name: 'Flask', icon: '🌶️', color: '#000000' },
-    { name: 'Astro', icon: '🚀', color: '#ff5d01' },
-    { name: 'Flutter', icon: '💙', color: '#02569b' },
-    { name: 'Rocket', icon: '🚀', color: '#d33847' },
-    { name: 'Actix', icon: '⚡', color: '#fd7f0b' }
+    { name: 'React', icon: 'https://skillicons.dev/icons?i=react' },
+    { name: 'Next.js', icon: 'https://skillicons.dev/icons?i=nextjs' },
+    { name: 'AWS', icon: 'https://skillicons.dev/icons?i=aws' },
+    { name: 'Node.js', icon: 'https://skillicons.dev/icons?i=nodejs' },
+    { name: 'Svelte', icon: 'https://skillicons.dev/icons?i=svelte' },
+    { name: 'Vite', icon: 'https://skillicons.dev/icons?i=vite' },
+    { name: 'Django', icon: 'https://skillicons.dev/icons?i=django' },
+    { name: 'Flask', icon: 'https://skillicons.dev/icons?i=flask' },
+    { name: 'Astro', icon: 'https://skillicons.dev/icons?i=astro' },
+    { name: 'Flutter', icon: 'https://skillicons.dev/icons?i=flutter' }
   ],
   "Operating Systems": [
-    { name: 'ZoS', icon: '🖥️', color: '#1ba1e2' },
-    { name: 'Windows', icon: '🪟', color: '#0078d4' },
-    { name: 'Linux', icon: '🐧', color: '#fcc624' },
-    { name: 'Apple', icon: '🍎', color: '#000000' },
-    { name: 'Ubuntu', icon: '🟠', color: '#e95420' },
-    { name: 'Arch', icon: '🏔️', color: '#1793d1' },
-    { name: 'Kali', icon: '🔒', color: '#557c94' },
-    { name: 'RedHat', icon: '🎩', color: '#ee0000' },
-    { name: 'Fedora', icon: '🧢', color: '#294172' }
+    { name: 'Windows', icon: 'https://skillicons.dev/icons?i=windows' },
+    { name: 'Linux', icon: 'https://skillicons.dev/icons?i=linux' },
+    { name: 'Apple', icon: 'https://skillicons.dev/icons?i=apple' },
+    { name: 'Ubuntu', icon: 'https://skillicons.dev/icons?i=ubuntu' },
+    { name: 'Arch', icon: 'https://skillicons.dev/icons?i=arch' },
+    { name: 'RedHat', icon: 'https://skillicons.dev/icons?i=redhat' },
+    { name: 'Fedora', icon: 'https://skillicons.dev/icons?i=fedora' }
+    // ZoS & Kali are not on skillicons → you can add custom icons if needed
   ],
   "Database": [
-    { name: 'PostgreSQL', icon: '🐘', color: '#336791' },
-    { name: 'MySQL', icon: '🐬', color: '#4479a1' },
-    { name: 'MongoDB', icon: '🍃', color: '#47a248' },
-    { name: 'GraphQL', icon: '◈', color: '#e10098' },
-    { name: 'Supabase', icon: '⚡', color: '#3ecf8e' },
-    { name: 'Neo4j', icon: '📊', color: '#008cc1' },
-    { name: 'PlanetScale', icon: '🌍', color: '#000000' },
-    { name: 'Chroma', icon: '🎨', color: '#ff6b6b' }
+    { name: 'PostgreSQL', icon: 'https://skillicons.dev/icons?i=postgres' },
+    { name: 'MySQL', icon: 'https://skillicons.dev/icons?i=mysql' },
+    { name: 'MongoDB', icon: 'https://skillicons.dev/icons?i=mongodb' },
+    { name: 'GraphQL', icon: 'https://skillicons.dev/icons?i=graphql' },
+    { name: 'Supabase', icon: 'https://skillicons.dev/icons?i=supabase' },
+    { name: 'PlanetScale', icon: 'https://skillicons.dev/icons?i=planetscale' }
+    // Chroma & Neo4j → custom logos if you want
   ],
   "Tools and Softwares": [
-    { name: 'VS Code', icon: '📝', color: '#007acc' },
-    { name: 'Visual Studio', icon: '🔧', color: '#5c2d91' },
-    { name: 'Android Studio', icon: '📱', color: '#3ddc84' },
-    { name: 'JetBrains', icon: '🧠', color: '#000000' },
-    { name: 'Eclipse', icon: '🌙', color: '#2c2255' },
-    { name: 'Neovim', icon: '📄', color: '#57a143' },
-    { name: 'Bitcoin', icon: '₿', color: '#f7931a' },
-    { name: 'Blender', icon: '🎭', color: '#f5792a' },
-    { name: 'Slack', icon: '💬', color: '#4a154b' },
-    { name: 'GitLab', icon: '🦊', color: '#fc6d26' },
-    { name: 'BitBucket', icon: '🪣', color: '#0052cc' },
-    { name: 'Replit', icon: '🔄', color: '#56676d' },
-    { name: 'Figma', icon: '🎨', color: '#f24e1e' },
-    { name: 'Docker', icon: '🐳', color: '#2496ed' },
-    { name: 'AWS', icon: '☁️', color: '#ff9900' },
-    { name: 'Postman', icon: '📮', color: '#ff6c37' },
-    { name: 'Kafka', icon: '📊', color: '#231f20' },
-    { name: 'Grafana', icon: '📈', color: '#f46800' }
+    { name: 'VS Code', icon: 'https://skillicons.dev/icons?i=vscode' },
+    { name: 'Visual Studio', icon: 'https://skillicons.dev/icons?i=visualstudio' },
+    { name: 'Android Studio', icon: 'https://skillicons.dev/icons?i=androidstudio' },
+    { name: 'JetBrains', icon: 'https://skillicons.dev/icons?i=idea' },
+    { name: 'Eclipse', icon: 'https://skillicons.dev/icons?i=eclipse' },
+    { name: 'Neovim', icon: 'https://skillicons.dev/icons?i=neovim' },
+    { name: 'GitLab', icon: 'https://skillicons.dev/icons?i=gitlab' },
+    { name: 'Bitbucket', icon: 'https://skillicons.dev/icons?i=bitbucket' },
+    { name: 'Replit', icon: 'https://skillicons.dev/icons?i=replit' },
+    { name: 'Figma', icon: 'https://skillicons.dev/icons?i=figma' },
+    { name: 'Docker', icon: 'https://skillicons.dev/icons?i=docker' },
+    { name: 'Postman', icon: 'https://skillicons.dev/icons?i=postman' },
+    { name: 'Kafka', icon: 'https://skillicons.dev/icons?i=kafka' },
+    { name: 'Grafana', icon: 'https://skillicons.dev/icons?i=grafana' }
+    // Bitcoin, Blender, Slack → add custom icons if needed
   ]
 };
 
 interface SkillIconProps {
-  skill: { name: string; icon: string; color: string };
+  skill: { name: string; icon: string };
   index: number;
   categoryIndex: number;
 }
@@ -97,15 +87,14 @@ const SkillIcon = ({ skill, index, categoryIndex }: SkillIconProps) => {
       }}
       className="relative group cursor-pointer"
     >
-      <div 
-        className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold text-sm transition-all duration-300 hover:scale-110 hover:shadow-lg"
-        style={{ backgroundColor: skill.color + '20', border: `2px solid ${skill.color}40` }}
-      >
-        <span className="text-lg" style={{ color: skill.color }}>
-          {skill.icon}
-        </span>
+      <div className="w-20 h-20 rounded-xl flex items-center justify-center bg-gray-900/50 hover:scale-110 hover:shadow-lg transition-all duration-300">
+        <img 
+          src={skill.icon} 
+          alt={skill.name} 
+          className="w-10 h-10 object-contain"
+        />
       </div>
-      
+
       {/* Tooltip */}
       <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10">
         {skill.name}
@@ -116,24 +105,13 @@ const SkillIcon = ({ skill, index, categoryIndex }: SkillIconProps) => {
 
 interface SkillCategoryProps {
   title: string;
-  skills: Array<{ name: string; icon: string; color: string }>;
+  skills: Array<{ name: string; icon: string }>;
   index: number;
 }
 
 const SkillCategory = ({ title, skills, index }: SkillCategoryProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
-
-  const getCategoryIcon = (title: string) => {
-    switch (title) {
-      case 'Language Skills': return '💬';
-      case 'Frameworks': return '🏗️';
-      case 'Operating Systems': return '💻';
-      case 'Database': return '🗄️';
-      case 'Tools and Softwares': return '🛠️';
-      default: return '📂';
-    }
-  };
 
   return (
     <motion.div
@@ -144,13 +122,10 @@ const SkillCategory = ({ title, skills, index }: SkillCategoryProps) => {
       className="mb-12"
     >
       <div className="flex items-center gap-3 mb-6">
-        <span className="text-2xl">{getCategoryIcon(title)}</span>
-        <h3 className="text-xl font-bold text-white">
-          {title}
-        </h3>
+        <h3 className="text-xl font-bold text-white">{title}</h3>
       </div>
       
-      <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-4">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6">
         {skills.map((skill, skillIndex) => (
           <SkillIcon
             key={skill.name}
