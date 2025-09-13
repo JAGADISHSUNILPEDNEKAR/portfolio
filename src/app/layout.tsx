@@ -12,7 +12,10 @@ const inter = Inter({
 });
 
 export const viewport: Viewport = {
-  themeColor: '#1e293b',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
+  ],
   colorScheme: 'dark light',
 };
 
@@ -91,14 +94,28 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark')
+                } else {
+                  document.documentElement.classList.remove('dark')
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
       </head>
-      <body className={`${inter.className} antialiased bg-slate-950 text-white`}>
+      <body className={`${inter.className} antialiased bg-white text-gray-900 dark:bg-slate-950 dark:text-white`}>
         <ErrorBoundary>
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
+            defaultTheme="system"
             enableSystem
-            disableTransitionOnChange
+            disableTransitionOnChange={false}
+            storageKey="portfolio-theme"
           >
             {children}
           </ThemeProvider>
