@@ -9,7 +9,7 @@ import ScrollToTop from '@/components/common/ScrollToTop';
 
 export default function HomePage() {
   return (
-    <>
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-gray-900 dark:text-white transition-colors duration-300">
       <Navigation />
       <main className="relative">
         <Hero />
@@ -20,6 +20,6 @@ export default function HomePage() {
       </main>
       <Footer />
       <ScrollToTop />
-    </>
+    </div>
   );
 }
