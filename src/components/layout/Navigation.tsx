@@ -9,14 +9,13 @@ import {
   XMarkIcon,
   SunIcon,
   MoonIcon,
-  ComputerDesktopIcon 
 } from '@heroicons/react/24/outline';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [scrolled, setScrolled] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   const navItems = [
@@ -59,8 +58,12 @@ const Navigation = () => {
   };
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
   };
+
+  if (!mounted) {
+    return null; // Prevent hydration mismatch
+  }
 
   return (
     <motion.nav
@@ -69,7 +72,7 @@ const Navigation = () => {
       transition={{ duration: 0.8 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-gray-950/90 backdrop-blur-md border-b border-gray-800' 
+          ? 'bg-white/90 dark:bg-gray-950/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-lg' 
           : 'bg-transparent'
       }`}
     >
@@ -82,7 +85,7 @@ const Navigation = () => {
               e.preventDefault();
               handleNavClick('#home');
             }}
-            className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent hover:scale-105 transition-transform duration-200"
+            className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent hover:scale-105 transition-transform duration-200"
           >
             Portfolio
           </Link>
@@ -99,49 +102,62 @@ const Navigation = () => {
                 }}
                 className={`relative py-2 text-sm font-medium transition-colors duration-200 ${
                   activeSection === item.href.slice(1)
-                    ? 'text-blue-400'
-                    : 'text-gray-300 hover:text-white'
+                    ? 'text-blue-600 dark:text-blue-400'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
                 {item.name}
                 {activeSection === item.href.slice(1) && (
                   <motion.div
                     layoutId="activeSection"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 rounded-full"
                   />
                 )}
               </Link>
             ))}
             
             {/* Theme Toggle */}
-            {mounted && (
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors duration-200"
-                aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? (
-                  <SunIcon className="w-5 h-5 text-yellow-400" />
-                ) : (
-                  <MoonIcon className="w-5 h-5 text-gray-400" />
-                )}
-              </button>
-            )}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800/50 hover:bg-gray-200 dark:hover:bg-gray-700/50 transition-colors duration-200 text-gray-700 dark:text-gray-300"
+              aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} theme`}
+            >
+              {resolvedTheme === 'dark' ? (
+                <SunIcon className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <MoonIcon className="w-5 h-5 text-gray-600" />
+              )}
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors duration-200"
-            aria-label="Toggle menu"
-            aria-expanded={isOpen}
-          >
-            {isOpen ? (
-              <XMarkIcon className="w-6 h-6 text-white" />
-            ) : (
-              <Bars3Icon className="w-6 h-6 text-white" />
-            )}
-          </button>
+          <div className="lg:hidden flex items-center gap-2">
+            {/* Mobile Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800/50 hover:bg-gray-200 dark:hover:bg-gray-700/50 transition-colors duration-200"
+              aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} theme`}
+            >
+              {resolvedTheme === 'dark' ? (
+                <SunIcon className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <MoonIcon className="w-5 h-5 text-gray-600" />
+              )}
+            </button>
+            
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800/50 hover:bg-gray-200 dark:hover:bg-gray-700/50 transition-colors duration-200"
+              aria-label="Toggle menu"
+              aria-expanded={isOpen}
+            >
+              {isOpen ? (
+                <XMarkIcon className="w-6 h-6 text-gray-700 dark:text-white" />
+              ) : (
+                <Bars3Icon className="w-6 h-6 text-gray-700 dark:text-white" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -153,7 +169,7 @@ const Navigation = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-gray-950/95 backdrop-blur-md border-t border-gray-800"
+            className="lg:hidden bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-800"
           >
             <div className="container mx-auto px-6 py-6">
               <div className="space-y-4">
@@ -172,37 +188,14 @@ const Navigation = () => {
                       }}
                       className={`block py-3 px-4 rounded-lg text-lg font-medium transition-colors duration-200 ${
                         activeSection === item.href.slice(1)
-                          ? 'bg-blue-600/20 text-blue-400'
-                          : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
+                          ? 'bg-blue-100 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400'
+                          : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800/50'
                       }`}
                     >
                       {item.name}
                     </Link>
                   </motion.div>
                 ))}
-                
-                {/* Mobile Theme Toggle */}
-                {mounted && (
-                  <motion.button
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: navItems.length * 0.1 }}
-                    onClick={toggleTheme}
-                    className="flex items-center gap-3 py-3 px-4 rounded-lg text-lg font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors duration-200"
-                  >
-                    {theme === 'dark' ? (
-                      <>
-                        <SunIcon className="w-6 h-6 text-yellow-400" />
-                        Light Mode
-                      </>
-                    ) : (
-                      <>
-                        <MoonIcon className="w-6 h-6 text-gray-400" />
-                        Dark Mode
-                      </>
-                    )}
-                  </motion.button>
-                )}
               </div>
             </div>
           </motion.div>
