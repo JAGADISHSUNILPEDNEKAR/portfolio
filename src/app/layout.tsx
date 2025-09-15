@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   description: PERSONAL_INFO.subtitle,
   keywords: [
     'Full Stack Developer',
-    'React Developer', 
+    'React Developer',
     'Next.js',
     'TypeScript',
     'JavaScript',
@@ -88,33 +88,45 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarnings>
+    <html
+      lang="en"
+      className={inter.variable}
+      suppressHydrationWarning
+    >
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
+
+        {/* Prevent flash of wrong theme before hydration */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              try {
-                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark')
-                } else {
-                  document.documentElement.classList.remove('dark')
-                }
-              } catch (_) {}
+              (function() {
+                try {
+                  var theme = localStorage.getItem('portfolio-theme');
+                  if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.style.colorScheme = 'dark';
+                  } else {
+                    document.documentElement.style.colorScheme = 'light';
+                  }
+                } catch (_) {}
+              })();
             `,
           }}
         />
       </head>
-      <body className={`${inter.className} antialiased bg-white text-gray-900 dark:bg-slate-950 dark:text-white`}>
+      <body
+        suppressHydrationWarning
+        className={`${inter.className} antialiased bg-white text-gray-900 dark:bg-slate-950 dark:text-white`}
+      >
         <ErrorBoundary>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
-            disableTransitionOnChange={false}
             storageKey="portfolio-theme"
           >
             {children}
