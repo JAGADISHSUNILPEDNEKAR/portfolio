@@ -16,7 +16,7 @@ const About = () => {
   const isInView = useInView(ref, { once: true });
 
   const stats = [
-    { label: 'Years Experience', value: '5+' },
+    { label: 'Years Experience', value: '1+' },
     { label: 'Projects Completed', value: '50+' },
     { label: 'Happy Clients', value: '25+' },
     { label: 'Technologies', value: '20+' }
@@ -24,11 +24,11 @@ const About = () => {
 
   const timeline = [
     {
-      year: '2024',
-      title: 'Senior Full Stack Developer',
-      company: 'Tech Innovations Inc.',
-      type: 'work',
-      description: 'Leading development of scalable web applications using React, Node.js, and cloud technologies.'
+      year: '2025',
+      title: 'Bitcoin Developer',
+      company: 'python-bitcoin-utils',
+      type: 'Internship',
+      description: 'Implementiing Bitcoin Improvement Protocals'
     },
     {
       year: '2022',
