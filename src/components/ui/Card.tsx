@@ -3,27 +3,29 @@ import { motion } from 'framer-motion';
 import { forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
-const Card = forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & {
-    hover?: boolean;
-    gradient?: boolean;
-  }
->(({ className, hover = false, gradient = false, children, ...props }, ref) => (
-  <motion.div
-    ref={ref}
-    whileHover={hover ? { scale: 1.02, y: -5 } : undefined}
-    className={cn(
-      "rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 shadow-lg",
-      gradient && "bg-gradient-to-br from-slate-800/50 to-slate-900/50",
-      hover && "cursor-pointer hover:bg-slate-800/70 hover:border-slate-600/50",
-      className
-    )}
-    {...props}
-  >
-    {children}
-  </motion.div>
-));
+interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 
+  'onAnimationStart' | 'onAnimationEnd' | 'onDragStart' | 'onDrag' | 'onDragEnd' | 'onDragEnter' | 'onDragExit' | 'onDragLeave' | 'onDragOver' | 'onDrop'> {
+  hover?: boolean;
+  gradient?: boolean;
+}
+
+const Card = forwardRef<HTMLDivElement, CardProps>(
+  ({ className, hover = false, gradient = false, children, ...props }, ref) => (
+    <motion.div
+      ref={ref}
+      whileHover={hover ? { scale: 1.02, y: -5 } : undefined}
+      className={cn(
+        "rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 shadow-lg",
+        gradient && "bg-gradient-to-br from-slate-800/50 to-slate-900/50",
+        hover && "cursor-pointer hover:bg-slate-800/70 hover:border-slate-600/50",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  )
+);
 Card.displayName = "Card";
 
 const CardHeader = forwardRef<

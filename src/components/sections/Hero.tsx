@@ -89,7 +89,7 @@ const Hero: React.FC = () => {
       filter: 'blur(0px)',
       transition: { 
         duration: 0.8, 
-        ease: [0.21, 0.47, 0.32, 0.98]
+        ease: [0.21, 0.47, 0.32, 0.98] as any
       }
     }
   };
@@ -552,7 +552,7 @@ const Hero: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotateY: -30 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ delay: 0.8, duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
+            transition={{ delay: 0.8, duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] as any }}
             className="relative flex justify-center lg:justify-end"
           >
             <div className="relative">
@@ -576,7 +576,7 @@ const Hero: React.FC = () => {
                   scale: 1.05,
                   rotateY: 10,
                   rotateX: -5,
-                  transition: { duration: 0.6, ease: "easeOut" }
+                  transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] as any }
                 }}
                 style={{
                   transformStyle: 'preserve-3d',
@@ -622,7 +622,7 @@ const Hero: React.FC = () => {
                     initial={{ scale: 0.8, opacity: 0, rotate: -10, filter: 'blur(10px)' }}
                     animate={{ scale: 1, opacity: 1, rotate: 0, filter: 'blur(0px)' }}
                     exit={{ scale: 0.9, opacity: 0, y: -20, filter: 'blur(8px)' }}
-                    transition={{ duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
+                    transition={{ duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] as any }}
                     className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md rounded-full border border-purple-400/30"
                   >
                     <motion.div

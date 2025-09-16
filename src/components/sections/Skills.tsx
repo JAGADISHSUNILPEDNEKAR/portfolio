@@ -106,9 +106,9 @@ interface SkillIconProps {
 interface SkillCategoryProps {
   title: string;
   categoryData: {
-    watermark: string;
-    color: string;
-    skills: Skill[];
+    readonly watermark: string;
+    readonly color: string;
+    readonly skills: readonly Skill[];
   };
   index: number;
 }
@@ -155,7 +155,7 @@ const SkillIcon = ({ skill, index, categoryIndex }: SkillIconProps) => {
   }
 
   return (
-    <div className="relative group cursor-pointer">
+    <div className="relative group cursor-pointer" ref={iconRef}>
       <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 rounded-xl flex flex-col items-center justify-center bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 hover:scale-110 hover:shadow-xl hover:shadow-blue-500/20 hover:bg-slate-700/70 hover:border-blue-500/30 transition-all duration-300 ease-out">
         <Image
           src={skill.icon}

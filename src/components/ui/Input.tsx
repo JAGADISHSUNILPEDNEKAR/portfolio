@@ -1,10 +1,13 @@
 'use client';
-import { motion } from 'framer-motion';
+import { motion, HTMLMotionProps } from 'framer-motion';
 import { forwardRef, useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/lib/utils';
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+// Create a cleaner interface that extends only the basic input attributes
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 
+  'onAnimationStart' | 'onAnimationEnd' | 'onAnimationIteration' | 'onTransitionEnd' | 
+  'onDragStart' | 'onDragEnd' | 'onDrag' | 'onDirectionLock' | 'onDragTransitionEnd'> {
   label?: string;
   error?: string;
   icon?: React.ReactNode;
@@ -45,7 +48,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            {...props}
+            {...(props as any)}
           />
           {/* Password toggle */}
           {type === 'password' && (
@@ -82,8 +85,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 );
 Input.displayName = "Input";
 
-// Textarea component
-export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+// Textarea component with similar fix
+export interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  'onAnimationStart' | 'onAnimationEnd' | 'onAnimationIteration' | 'onTransitionEnd' | 
+  'onDragStart' | 'onDragEnd' | 'onDrag' | 'onDirectionLock' | 'onDragTransitionEnd'> {
   label?: string;
   error?: string;
 }
@@ -110,7 +115,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             )}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            {...props}
+            {...(props as any)}
           />
           {/* Focus ring */}
           <motion.div

@@ -330,10 +330,12 @@ const About = () => {
                   className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-4 text-center hover:border-gray-600 hover:bg-gray-900/70 transition-all duration-300"
                 >
                   <div className="text-2xl font-bold text-white mb-1">
-                    {/* Assign ref here for each stat */}
+                    {/* Fixed ref callback - no return value */}
                     <span
                       className="stat-number"
-                      ref={el => (counterRefs.current[index] = el)}
+                      ref={(el) => {
+                        counterRefs.current[index] = el;
+                      }}
                     >
                       {stat.value}
                     </span>

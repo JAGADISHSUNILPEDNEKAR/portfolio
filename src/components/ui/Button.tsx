@@ -1,5 +1,5 @@
 'use client';
-import { motion } from 'framer-motion';
+import { motion, HTMLMotionProps } from 'framer-motion';
 import { forwardRef } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
@@ -36,10 +36,11 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends Omit<HTMLMotionProps<"button">, "ref" | "children">,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   loading?: boolean;
+  children?: React.ReactNode;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -65,6 +66,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
   }
 );
+
 Button.displayName = "Button";
 
 export { Button, buttonVariants };
