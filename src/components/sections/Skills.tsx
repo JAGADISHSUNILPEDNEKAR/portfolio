@@ -290,6 +290,7 @@ return () => ctx.revert();
   }, [isMounted]);
 return (
 <section
+id="skills"
 ref={sectionRef}
 className="relative py-32 overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-gray-950 min-h-screen"
 >

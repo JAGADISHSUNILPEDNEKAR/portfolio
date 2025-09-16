@@ -108,6 +108,7 @@ const Contact = () => {
 
   return (
     <section
+      id="contact"
       ref={sectionRef}
       className={`relative py-32 overflow-hidden ${SECTION_THEMES.contact.background}`}
     >

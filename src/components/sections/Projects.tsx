@@ -109,6 +109,7 @@ const Projects = () => {
 
   return (
     <section
+      id="projects"
       ref={sectionRef}
       className={`relative py-32 overflow-hidden ${SECTION_THEMES.projects.background}`}
     >
