@@ -1,5 +1,5 @@
 'use client';
-import { motion, HTMLMotionProps } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { forwardRef, useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/lib/utils';
@@ -48,7 +48,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            {...(props as any)}
+            {...props}
           />
           {/* Password toggle */}
           {type === 'password' && (
@@ -115,7 +115,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             )}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            {...(props as any)}
+            {...props}
           />
           {/* Focus ring */}
           <motion.div
