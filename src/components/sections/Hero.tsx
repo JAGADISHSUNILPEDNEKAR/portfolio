@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence, Transition } from 'framer-motion';
 import { gsap } from 'gsap';
 
 // Types
@@ -17,6 +17,9 @@ interface ParticlePosition {
   size: number;
   delay: number;
 }
+
+// Custom easing type for framer-motion
+type CustomEasing = [number, number, number, number];
 
 // Constants
 const PERSONAL_INFO = {
@@ -65,6 +68,9 @@ const Hero: React.FC = () => {
   const yTransform = useTransform(scrollY, [0, 400], [0, 100]);
   const opacityTransform = useTransform(scrollY, [0, 300], [1, 0.7]);
 
+  // Custom easing
+  const customEase: CustomEasing = [0.21, 0.47, 0.32, 0.98];
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -89,7 +95,7 @@ const Hero: React.FC = () => {
       filter: 'blur(0px)',
       transition: { 
         duration: 0.8, 
-        ease: [0.21, 0.47, 0.32, 0.98] as any
+        ease: customEase
       }
     }
   };
@@ -552,7 +558,11 @@ const Hero: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotateY: -30 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ delay: 0.8, duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] as any }}
+            transition={{ 
+              delay: 0.8, 
+              duration: 1.2, 
+              ease: customEase 
+            } satisfies Transition}
             className="relative flex justify-center lg:justify-end"
           >
             <div className="relative">
@@ -564,9 +574,7 @@ const Hero: React.FC = () => {
                 }}
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-              >
-                <div className="absolute inset-2 rounded-full bg-black/90 backdrop-blur-xl" />
-              </motion.div>
+              />
               
               {/* Profile Container */}
               <motion.div
@@ -576,7 +584,10 @@ const Hero: React.FC = () => {
                   scale: 1.05,
                   rotateY: 10,
                   rotateX: -5,
-                  transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] as any }
+                  transition: { 
+                    duration: 0.6, 
+                    ease: [0.4, 0, 0.2, 1] as CustomEasing
+                  }
                 }}
                 style={{
                   transformStyle: 'preserve-3d',
@@ -622,7 +633,10 @@ const Hero: React.FC = () => {
                     initial={{ scale: 0.8, opacity: 0, rotate: -10, filter: 'blur(10px)' }}
                     animate={{ scale: 1, opacity: 1, rotate: 0, filter: 'blur(0px)' }}
                     exit={{ scale: 0.9, opacity: 0, y: -20, filter: 'blur(8px)' }}
-                    transition={{ duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] as any }}
+                    transition={{ 
+                      duration: 1.2, 
+                      ease: customEase 
+                    } satisfies Transition}
                     className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md rounded-full border border-purple-400/30"
                   >
                     <motion.div
