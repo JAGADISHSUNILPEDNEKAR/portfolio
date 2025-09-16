@@ -165,11 +165,11 @@ const Contact = () => {
         >
           <h2 className="text-5xl md:text-7xl font-bold mb-6">
             <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Let's Connect
+              Let&apos;s Connect
             </span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Have a project in mind? Let's create something amazing together
+            Have a project in mind? Let&apos;s create something amazing together
           </p>
         </motion.div>
 
@@ -324,7 +324,7 @@ const Contact = () => {
                 <span className="text-green-400 font-medium">Currently Available</span>
               </div>
               <p className="text-gray-300 text-sm">
-                I'm open to freelance opportunities and interesting projects. 
+                I&apos;m open to freelance opportunities and interesting projects. 
                 Feel free to reach out if you have something in mind!
               </p>
             </motion.div>

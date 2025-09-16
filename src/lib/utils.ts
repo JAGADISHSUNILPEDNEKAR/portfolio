@@ -14,8 +14,8 @@ export function formatDate(date: Date | string) {
   })
 }
 
-// Debounce function
-export function debounce<T extends (...args: any[]) => any>(
+// Debounce function - Fixed type
+export function debounce<T extends (...args: unknown[]) => void>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -57,11 +57,9 @@ export function truncateText(text: string, maxLength: number): string {
 // Format file size
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 Bytes';
-  
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 

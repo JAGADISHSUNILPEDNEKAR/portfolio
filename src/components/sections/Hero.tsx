@@ -105,25 +105,6 @@ const Hero: React.FC = () => {
     }
   };
 
-  const letterVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 50,
-      rotateX: -90,
-      filter: 'blur(4px)'
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      filter: 'blur(0px)',
-      transition: { 
-        duration: 0.6, 
-        ease: [0.21, 0.47, 0.32, 0.98]
-      }
-    }
-  };
-
   // Enhanced mouse move handler
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     if (!containerRef.current) return;
@@ -176,7 +157,7 @@ const Hero: React.FC = () => {
     const ctx = gsap.context(() => {
       // Split text animation
       const text = titleRef.current!.innerText;
-      const chars = text.split('').map((char, i) => 
+      const chars = text.split('').map((char) => 
         `<span class="char" style="display: inline-block">${char === ' ' ? '&nbsp;' : char}</span>`
       );
       titleRef.current!.innerHTML = chars.join('');
@@ -254,46 +235,48 @@ const Hero: React.FC = () => {
     };
   }, []);
 
-  // Enhanced Particle component
-  const EnhancedParticle: React.FC<{ particle: ParticlePosition; index: number }> = React.memo(({ particle, index }) => (
-    <motion.div
-      className="particle absolute rounded-full bg-gradient-to-r from-purple-400/40 via-pink-400/30 to-blue-400/40 backdrop-blur-sm"
-      style={{
-        width: particle.size * 2,
-        height: particle.size * 2,
-      }}
-      initial={{ 
-        x: particle.x, 
-        y: particle.y, 
-        opacity: 0,
-        scale: 0 
-      }}
-      animate={{
-        x: [
-          particle.x,
-          particle.x + (index % 3 === 0 ? 100 : -80),
-          particle.x + (index % 2 === 0 ? -60 : 120),
-          particle.x
-        ],
-        y: [
-          particle.y,
-          particle.y + (index % 4 === 0 ? 80 : -100),
-          particle.y + (index % 3 === 0 ? -40 : 90),
-          particle.y
-        ],
-        opacity: [0, 0.8, 0.4, 0],
-        scale: [0, 1, 0.8, 0]
-      }}
-      transition={{
-        duration: 15 + (index % 6) * 3,
-        repeat: Infinity,
-        ease: 'easeInOut',
-        delay: particle.delay,
-      }}
-    />
-  ));
+  // Enhanced Particle component with display name
+  const EnhancedParticle: React.FC<{ particle: ParticlePosition; index: number }> = React.memo(function EnhancedParticle({ particle, index }) {
+    return (
+      <motion.div
+        className="particle absolute rounded-full bg-gradient-to-r from-purple-400/40 via-pink-400/30 to-blue-400/40 backdrop-blur-sm"
+        style={{
+          width: particle.size * 2,
+          height: particle.size * 2,
+        }}
+        initial={{ 
+          x: particle.x, 
+          y: particle.y, 
+          opacity: 0,
+          scale: 0 
+        }}
+        animate={{
+          x: [
+            particle.x,
+            particle.x + (index % 3 === 0 ? 100 : -80),
+            particle.x + (index % 2 === 0 ? -60 : 120),
+            particle.x
+          ],
+          y: [
+            particle.y,
+            particle.y + (index % 4 === 0 ? 80 : -100),
+            particle.y + (index % 3 === 0 ? -40 : 90),
+            particle.y
+          ],
+          opacity: [0, 0.8, 0.4, 0],
+          scale: [0, 1, 0.8, 0]
+        }}
+        transition={{
+          duration: 15 + (index % 6) * 3,
+          repeat: Infinity,
+          ease: 'easeInOut',
+          delay: particle.delay,
+        }}
+      />
+    );
+  });
 
-  // Magnetic Button component
+  // Magnetic Button component with proper type
   const MagneticButton: React.FC<{
     children: React.ReactNode;
     onClick?: () => void;
@@ -329,7 +312,7 @@ const Hero: React.FC = () => {
     
     return (
       <Component
-        ref={buttonRef as any}
+        ref={buttonRef as React.RefObject<HTMLButtonElement & HTMLAnchorElement>}
         {...(href ? { href, target: '_blank', rel: 'noopener noreferrer' } : { onClick })}
         className={`${baseClasses} ${className}`}
         onMouseMove={handleMouseMove}

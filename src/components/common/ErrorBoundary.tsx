@@ -1,5 +1,4 @@
 'use client';
-
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { ExclamationTriangleIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 
@@ -33,18 +32,18 @@ class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
-          <div className="max-w-md w-full bg-gray-900/50 border border-gray-800 rounded-2xl p-8 text-center">
-            <ExclamationTriangleIcon className="w-16 h-16 text-red-500 mx-auto mb-6" />
-            <h1 className="text-2xl font-bold text-white mb-4">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 to-purple-950">
+          <div className="text-center p-8">
+            <ExclamationTriangleIcon className="w-24 h-24 text-red-400 mx-auto mb-6" />
+            <h1 className="text-3xl font-bold text-white mb-4">
               Oops! Something went wrong
             </h1>
-            <p className="text-gray-400 mb-8">
-              We're sorry for the inconvenience. Please try refreshing the page.
+            <p className="text-gray-300 mb-8 max-w-md mx-auto">
+              We&apos;re sorry for the inconvenience. Please try refreshing the page.
             </p>
             <button
               onClick={this.handleRefresh}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
+              className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-colors duration-200 gap-2"
             >
               <ArrowPathIcon className="w-5 h-5" />
               Refresh Page

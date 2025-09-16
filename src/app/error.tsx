@@ -1,5 +1,4 @@
 'use client';
-
 import { motion } from 'framer-motion';
 import { ExclamationTriangleIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 import { useEffect } from 'react';
@@ -16,64 +15,50 @@ export default function Error({ error, reset }: ErrorProps) {
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center max-w-md mx-auto"
-      >
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 to-purple-950">
+      <div className="text-center p-8">
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-          className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="mb-8"
         >
-          <ExclamationTriangleIcon className="w-10 h-10 text-red-500" />
+          <ExclamationTriangleIcon className="w-24 h-24 text-red-400 mx-auto mb-4" />
+          <h1 className="text-4xl font-bold text-white mb-4">
+            Something went wrong!
+          </h1>
         </motion.div>
 
-        <h1 className="text-2xl font-bold text-white mb-4">
-          Something went wrong!
-        </h1>
-        
-        <p className="text-gray-400 mb-8 leading-relaxed">
-          We encountered an unexpected error. Don't worry, our team has been notified 
-          and we're working to fix it.
-        </p>
+        <div className="max-w-md mx-auto mb-8">
+          <p className="text-gray-300 mb-6">
+            We encountered an unexpected error. Don&apos;t worry, our team has been notified
+            and we&apos;re working to fix it.
+          </p>
 
-        <div className="space-y-4">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={reset}
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-xl hover:shadow-lg transition-all duration-200"
-          >
-            <ArrowPathIcon className="w-4 h-4 mr-2" />
-            Try Again
-          </motion.button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={reset}
+              className="px-6 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-colors duration-200 flex items-center justify-center gap-2"
+            >
+              <ArrowPathIcon className="w-5 h-5" />
+              Try Again
+            </button>
 
-          <div>
-            <motion.a
-              whileHover={{ scale: 1.05 }}
-              href="/"
-              className="inline-flex items-center text-gray-400 hover:text-white transition-colors"
+            <button
+              onClick={() => window.location.href = '/'}
+              className="px-6 py-3 border border-white/20 text-white font-medium rounded-xl hover:bg-white/10 transition-all duration-200"
             >
               ← Back to Home
-            </motion.a>
+            </button>
           </div>
         </div>
 
         {process.env.NODE_ENV === 'development' && (
-          <details className="mt-8 text-left">
-            <summary className="text-sm text-gray-500 cursor-pointer hover:text-gray-400">
-              Error Details (Development Only)
-            </summary>
-            <pre className="mt-2 text-xs text-red-400 bg-red-900/10 p-4 rounded-lg overflow-auto">
-              {error.message}
-            </pre>
-          </details>
+          <div className="max-w-2xl mx-auto mt-8 p-4 bg-red-900/20 border border-red-500/30 rounded-lg text-left">
+            <h3 className="text-red-400 font-medium mb-2">Error Details (Development Only)</h3>
+            <pre className="text-red-300 text-sm overflow-auto">{error.message}</pre>
+          </div>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 }

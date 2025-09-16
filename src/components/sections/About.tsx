@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
@@ -8,10 +8,8 @@ import Image from 'next/image';
 import {
   AcademicCapIcon,
   BriefcaseIcon,
-  TrophyIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
-import { PERSONAL_INFO } from '@/lib/constants';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,12 +20,12 @@ const About = () => {
   // Ref for all counter spans
   const counterRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
-  const stats = [
+  const stats = useMemo(() => [
     { label: 'Years Experience', value: '1+' },
     { label: 'Projects Completed', value: '50+' },
     { label: 'Happy Clients', value: '25+' },
     { label: 'Technologies', value: '20+' },
-  ];
+  ], []);
 
   const timeline = [
     {
@@ -169,7 +167,7 @@ const About = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [stats]); // Add stats to dependency array
 
   const TimelineItem = ({
     item,
@@ -302,7 +300,7 @@ const About = () => {
 
             <div className="content-text space-y-4 text-gray-400 leading-relaxed">
               <p>
-                I'm a passionate full-stack developer with over 1 years of
+                I&apos;m a passionate full-stack developer with over 1 years of
                 experience creating scalable web applications and digital
                 solutions. My journey in tech started with a curiosity for how
                 things work and evolved into a career focused on building
@@ -310,11 +308,11 @@ const About = () => {
               </p>
               <p>
                 I specialize in modern JavaScript frameworks, particularly React
-                and Node.js, and I'm always eager to learn new technologies that
+                and Node.js, and I&apos;m always eager to learn new technologies that
                 can improve the development process and end-user experience.
               </p>
               <p>
-                When I'm not coding, you'll find me contributing to open-source
+                When I&apos;m not coding, you&apos;ll find me contributing to open-source
                 projects, writing technical articles, or exploring the latest
                 trends in web development.
               </p>

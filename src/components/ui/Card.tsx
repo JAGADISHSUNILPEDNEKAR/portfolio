@@ -1,5 +1,4 @@
 'use client';
-
 import { motion } from 'framer-motion';
 import { forwardRef } from 'react';
 import { cn } from '@/lib/utils';
@@ -11,7 +10,17 @@ const Card = forwardRef<
     gradient?: boolean;
   }
 >(({ className, hover = false, gradient = false, children, ...props }, ref) => (
-  <motion.div>
+  <motion.div
+    ref={ref}
+    whileHover={hover ? { scale: 1.02, y: -5 } : undefined}
+    className={cn(
+      "rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 shadow-lg",
+      gradient && "bg-gradient-to-br from-slate-800/50 to-slate-900/50",
+      hover && "cursor-pointer hover:bg-slate-800/70 hover:border-slate-600/50",
+      className
+    )}
+    {...props}
+  >
     {children}
   </motion.div>
 ));

@@ -3,15 +3,17 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 gsap.registerPlugin(ScrollTrigger);
+
 /* -------------------------------------------------------------------------- */
 /* SKILLS DATA SET */
 /* -------------------------------------------------------------------------- */
 const SKILLS_DATA = {
-'Language Skills': {
-watermark: '</>',
-color: 'from-blue-500 to-cyan-500',
-skills: [
+  'Language Skills': {
+    watermark: '</>',
+    color: 'from-blue-500 to-cyan-500',
+    skills: [
       { name: 'Java', icon: 'https://skillicons.dev/icons?i=java' },
       { name: 'JavaScript', icon: 'https://skillicons.dev/icons?i=javascript' },
       { name: 'TypeScript', icon: 'https://skillicons.dev/icons?i=typescript' },
@@ -21,13 +23,13 @@ skills: [
       { name: 'Dart', icon: 'https://skillicons.dev/icons?i=dart' },
       { name: 'Go', icon: 'https://skillicons.dev/icons?i=go' },
       { name: 'Rust', icon: 'https://skillicons.dev/icons?i=rust' },
-      { name: 'Kotlin', icon: 'https://skillicons.dev/icons?i=kotlin' }
-    ]
+      { name: 'Kotlin', icon: 'https://skillicons.dev/icons?i=kotlin' },
+    ],
   },
-Frameworks: {
-watermark: '🧩',
-color: 'from-green-500 to-emerald-500',
-skills: [
+  Frameworks: {
+    watermark: '🧩',
+    color: 'from-green-500 to-emerald-500',
+    skills: [
       { name: 'React', icon: 'https://skillicons.dev/icons?i=react' },
       { name: 'Next.js', icon: 'https://skillicons.dev/icons?i=nextjs' },
       { name: 'AWS', icon: 'https://skillicons.dev/icons?i=aws' },
@@ -37,25 +39,25 @@ skills: [
       { name: 'Django', icon: 'https://skillicons.dev/icons?i=django' },
       { name: 'Flask', icon: 'https://skillicons.dev/icons?i=flask' },
       { name: 'Astro', icon: 'https://skillicons.dev/icons?i=astro' },
-      { name: 'Flutter', icon: 'https://skillicons.dev/icons?i=flutter' }
-    ]
+      { name: 'Flutter', icon: 'https://skillicons.dev/icons?i=flutter' },
+    ],
   },
-Database: {
-watermark: '🗄️',
-color: 'from-purple-500 to-pink-500',
-skills: [
+  Database: {
+    watermark: '🗄️',
+    color: 'from-purple-500 to-pink-500',
+    skills: [
       { name: 'PostgreSQL', icon: 'https://skillicons.dev/icons?i=postgres' },
       { name: 'MySQL', icon: 'https://skillicons.dev/icons?i=mysql' },
       { name: 'MongoDB', icon: 'https://skillicons.dev/icons?i=mongodb' },
       { name: 'GraphQL', icon: 'https://skillicons.dev/icons?i=graphql' },
       { name: 'Supabase', icon: 'https://skillicons.dev/icons?i=supabase' },
-      { name: 'PlanetScale', icon: 'https://skillicons.dev/icons?i=planetscale' }
-    ]
+      { name: 'PlanetScale', icon: 'https://skillicons.dev/icons?i=planetscale' },
+    ],
   },
-'Tools & Softwares': {
-watermark: '🔨',
-color: 'from-orange-500 to-red-500',
-skills: [
+  'Tools & Softwares': {
+    watermark: '🔨',
+    color: 'from-orange-500 to-red-500',
+    skills: [
       { name: 'VS Code', icon: 'https://skillicons.dev/icons?i=vscode' },
       { name: 'Visual Studio', icon: 'https://skillicons.dev/icons?i=visualstudio' },
       { name: 'Android Studio', icon: 'https://skillicons.dev/icons?i=androidstudio' },
@@ -69,349 +71,329 @@ skills: [
       { name: 'Docker', icon: 'https://skillicons.dev/icons?i=docker' },
       { name: 'Postman', icon: 'https://skillicons.dev/icons?i=postman' },
       { name: 'Kafka', icon: 'https://skillicons.dev/icons?i=kafka' },
-      { name: 'Grafana', icon: 'https://skillicons.dev/icons?i=grafana' }
-    ]
+      { name: 'Grafana', icon: 'https://skillicons.dev/icons?i=grafana' },
+    ],
   },
-'Operating Systems': {
-watermark: '🖥️',
-color: 'from-indigo-500 to-purple-500',
-skills: [
+  'Operating Systems': {
+    watermark: '🖥️',
+    color: 'from-indigo-500 to-purple-500',
+    skills: [
       { name: 'Windows', icon: 'https://skillicons.dev/icons?i=windows' },
       { name: 'Linux', icon: 'https://skillicons.dev/icons?i=linux' },
       { name: 'Apple', icon: 'https://skillicons.dev/icons?i=apple' },
       { name: 'Ubuntu', icon: 'https://skillicons.dev/icons?i=ubuntu' },
       { name: 'Arch', icon: 'https://skillicons.dev/icons?i=arch' },
       { name: 'RedHat', icon: 'https://skillicons.dev/icons?i=redhat' },
-      { name: 'Fedora', icon: 'https://skillicons.dev/icons?i=fedora' }
-    ]
-  }
+      { name: 'Fedora', icon: 'https://skillicons.dev/icons?i=fedora' },
+    ],
+  },
 } as const;
+
 /* -------------------------------------------------------------------------- */
 /* TYPE DEFINITIONS */
 /* -------------------------------------------------------------------------- */
 interface Skill {
-name: string;
-icon: string;
+  name: string;
+  icon: string;
 }
+
 interface SkillIconProps {
-skill: Skill;
-index: number;
-categoryIndex: number;
-hoveredSkill: string | null;
-setHoveredSkill: (skill: string | null) => void;
-color: string;
+  skill: Skill;
+  index: number;
+  categoryIndex: number;
 }
+
 interface SkillCategoryProps {
-title: string;
-categoryData: {
-watermark: string;
-color: string;
-skills: Skill[];
+  title: string;
+  categoryData: {
+    watermark: string;
+    color: string;
+    skills: Skill[];
   };
-index: number;
-hoveredSkill: string | null;
-setHoveredSkill: (skill: string | null) => void;
+  index: number;
 }
+
 /* -------------------------------------------------------------------------- */
 /* SUBCOMPONENTS */
 /* -------------------------------------------------------------------------- */
-const SkillIcon = ({
-skill,
-index,
-categoryIndex,
-hoveredSkill,
-setHoveredSkill,
-color
-}: SkillIconProps) => {
-const iconRef = useRef<HTMLDivElement>(null);
-const [isMounted, setIsMounted] = useState(false);
-/* -------------------------- Client-side only GSAP -------------------------- */
-useEffect(() => {
-setIsMounted(true);
+const SkillIcon = ({ skill, index, categoryIndex }: SkillIconProps) => {
+  const iconRef = useRef<HTMLDivElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  /* Client-side only GSAP */
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
-useEffect(() => {
-if (iconRef.current && isMounted) {
-gsap.fromTo(
-iconRef.current,
+
+  useEffect(() => {
+    if (iconRef.current && isMounted) {
+      gsap.fromTo(
+        iconRef.current,
         { opacity: 0, scale: 0.5, y: 50 },
         {
-opacity: 1,
-scale: 1,
-y: 0,
-duration: 0.6,
-delay: categoryIndex * 0.15 + index * 0.08,
-ease: 'back.out(1.7)',
-scrollTrigger: {
-trigger: iconRef.current,
-start: 'top 85%',
-toggleActions: 'play none none none'
-          }
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.6,
+          delay: categoryIndex * 0.15 + index * 0.08,
+          ease: 'back.out(1.7)',
+          scrollTrigger: {
+            trigger: iconRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
         }
       );
     }
   }, [index, categoryIndex, isMounted]);
-/* -------------------------- SSR Hydration Guard --------------------------- */
-if (!isMounted) {
-return (
-<div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 rounded-xl flex flex-col items-center justify-center bg-slate-800/60 backdrop-blur-sm border border-slate-700/50" />
+
+  /* SSR Hydration Guard */
+  if (!isMounted) {
+    return (
+      <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 rounded-xl flex flex-col items-center justify-center bg-slate-800/60 backdrop-blur-sm border border-slate-700/50" />
     );
   }
-return (
-<div
-ref={iconRef}
-className="relative group cursor-pointer"
-onMouseEnter={() => setHoveredSkill(skill.name)}
-onMouseLeave={() => setHoveredSkill(null)}
->
-{/* Icon Box */}
-<div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 rounded-xl flex flex-col items-center justify-center bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 hover:scale-110 hover:shadow-xl hover:shadow-blue-500/20 hover:bg-slate-700/70 hover:border-blue-500/30 transition-all duration-300 ease-out">
-<img
-src={skill.icon}
-alt={skill.name}
-className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11 object-contain filter drop-shadow-sm mb-1"
-loading="lazy"
-/>
-</div>
-{/* Tooltip */}
-<div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-900/95 backdrop-blur-sm text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap z-20 border border-slate-700/50 shadow-xl">
-<div className="font-medium">{skill.name}</div>
-<div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-900/95" />
-</div>
-</div>
+
+  return (
+    <div className="relative group cursor-pointer">
+      <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 rounded-xl flex flex-col items-center justify-center bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 hover:scale-110 hover:shadow-xl hover:shadow-blue-500/20 hover:bg-slate-700/70 hover:border-blue-500/30 transition-all duration-300 ease-out">
+        <Image
+          src={skill.icon}
+          alt={skill.name}
+          width={40}
+          height={40}
+          className="object-contain filter drop-shadow-sm mb-1"
+          loading="lazy"
+          unoptimized={true}
+        />
+      </div>
+      <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-900/95 backdrop-blur-sm text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap z-20 border border-slate-700/50 shadow-xl">
+        <div className="font-medium">{skill.name}</div>
+        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-900/95" />
+      </div>
+    </div>
   );
 };
-const SkillCategory = ({
-title,
-categoryData,
-index,
-hoveredSkill,
-setHoveredSkill
-}: SkillCategoryProps) => {
-const ref = useRef<HTMLDivElement>(null);
-const [isMounted, setIsMounted] = useState(false);
-useEffect(() => {
-setIsMounted(true);
+
+const SkillCategory = ({ title, categoryData, index }: SkillCategoryProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
-useEffect(() => {
-if (ref.current && isMounted) {
-gsap.fromTo(
-ref.current,
+
+  useEffect(() => {
+    if (ref.current && isMounted) {
+      gsap.fromTo(
+        ref.current,
         { opacity: 0, y: 100, scale: 0.8 },
         {
-opacity: 1,
-y: 0,
-scale: 1,
-duration: 1,
-delay: index * 0.2,
-ease: 'power2.out',
-scrollTrigger: {
-trigger: ref.current,
-start: 'top 80%',
-toggleActions: 'play none none none'
-          }
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          delay: index * 0.2,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: ref.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
         }
       );
     }
   }, [index, isMounted]);
-return (
-<div ref={ref} className="mb-20 relative skill-category">
-<div className="max-w-4xl mx-auto px-4 sm:px-6">
-{/* Header */}
-<div className="flex items-center justify-center mb-10">
-<h3
-className={`text-2xl sm:text-3xl font-bold text-center bg-gradient-to-r ${categoryData.color} bg-clip-text text-transparent`}
->
-{title}
-</h3>
-</div>
-{/* Watermark + Grid */}
-<div className="relative min-h-[200px] flex items-center justify-center">
-<div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-<span
-className="text-[150px] sm:text-[180px] md:text-[220px] lg:text-[260px] text-slate-800/8 font-bold select-none"
-suppressHydrationWarning
->
-{categoryData.watermark}
-</span>
-</div>
-<div className="relative z-10 w-full">
-<div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6 md:gap-8 place-items-center max-w-5xl mx-auto">
-{categoryData.skills.map((skill, skillIndex) => (
-<SkillIcon
-key={skill.name}
-skill={skill}
-index={skillIndex}
-categoryIndex={index}
-hoveredSkill={hoveredSkill}
-setHoveredSkill={setHoveredSkill}
-color={categoryData.color}
-/>
+
+  return (
+    <div ref={ref} className="mb-20 relative skill-category">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-center mb-10">
+          <h3
+            className={`text-2xl sm:text-3xl font-bold text-center bg-gradient-to-r ${categoryData.color} bg-clip-text text-transparent`}
+          >
+            {title}
+          </h3>
+        </div>
+        <div className="relative min-h-[200px] flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <span
+              className="text-[150px] sm:text-[180px] md:text-[220px] lg:text-[260px] text-slate-800/8 font-bold select-none"
+              suppressHydrationWarning
+            >
+              {categoryData.watermark}
+            </span>
+          </div>
+          <div className="relative z-10 w-full">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6 md:gap-8 place-items-center max-w-5xl mx-auto">
+              {categoryData.skills.map((skill, skillIndex) => (
+                <SkillIcon
+                  key={skill.name}
+                  skill={skill}
+                  index={skillIndex}
+                  categoryIndex={index}
+                />
               ))}
-</div>
-</div>
-</div>
-</div>
-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
+
 /* -------------------------------------------------------------------------- */
 /* MAIN */
 /* -------------------------------------------------------------------------- */
 const Skills = () => {
-const sectionRef = useRef<HTMLElement>(null);
-const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
-const [isMounted, setIsMounted] = useState(false);
-useEffect(() => {
-setIsMounted(true);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
-/* -------------------------- Background Animations ------------------------- */
-useEffect(() => {
-if (!isMounted) return;
-const ctx = gsap.context(() => {
-/* Particles */
-gsap.to('.skill-particle', {
-y: -100,
-opacity: 0,
-duration: 4,
-stagger: { each: 0.3, repeat: -1, from: 'random' },
-ease: 'power1.out'
+
+  /* Background Animations */
+  useEffect(() => {
+    if (!isMounted) return;
+    const ctx = gsap.context(() => {
+      gsap.to('.skill-particle', {
+        y: -100,
+        opacity: 0,
+        duration: 4,
+        stagger: { each: 0.3, repeat: -1, from: 'random' },
+        ease: 'power1.out',
       });
-/* Category Float */
-gsap.to('.skill-category', {
-y: -10,
-duration: 3,
-repeat: -1,
-yoyo: true,
-ease: 'power1.inOut',
-stagger: 0.5
+      gsap.to('.skill-category', {
+        y: -10,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.inOut',
+        stagger: 0.5,
       });
     }, sectionRef);
-return () => ctx.revert();
+    return () => ctx.revert();
   }, [isMounted]);
-return (
-<section
-id="skills"
-ref={sectionRef}
-className="relative py-32 overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-gray-950 min-h-screen"
->
-{/* Oceanic Background */}
-<div className="absolute inset-0">
-<div className="absolute inset-0 opacity-20">
-<div className="absolute top-1/3 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" />
-<div
-className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"
-style={{ animationDelay: '3s' }}
-/>
-<div
-className="absolute top-2/3 left-1/2 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"
-style={{ animationDelay: '5s' }}
-/>
-</div>
-{/* Grid Overlay */}
-<div className="absolute inset-0 opacity-5">
-<div
-className="absolute inset-0"
-style={{
-backgroundImage:
-'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)',
-backgroundSize: '20px 20px'
+
+  return (
+    <section
+      id="skills"
+      ref={sectionRef}
+      className="relative py-32 overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-gray-950 min-h-screen"
+    >
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" />
+          <div
+            className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"
+            style={{ animationDelay: '3s' }}
+          />
+          <div
+            className="absolute top-2/3 left-1/2 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"
+            style={{ animationDelay: '5s' }}
+          />
+        </div>
+        <div className="absolute inset-0 opacity-5">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)',
+              backgroundSize: '20px 20px',
             }}
-/>
-</div>
-{/* Wave SVG */}
-<svg className="absolute bottom-0 w-full h-64 opacity-10" viewBox="0 0 1440 320">
-<path
-fill="currentColor"
-className="text-blue-500"
-d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-/>
-</svg>
-{/* Floating Particles */}
-<div className="absolute inset-0">
-{[...Array(20)].map((_, i) => (
-<div
-key={i}
-className="skill-particle absolute w-2 h-2 bg-blue-400/30 rounded-full"
-style={{
-left: `${Math.random() * 100}%`,
-top: `${100 + Math.random() * 50}%`
+          />
+        </div>
+        <svg className="absolute bottom-0 w-full h-64 opacity-10" viewBox="0 0 1440 320">
+          <path
+            fill="currentColor"
+            className="text-blue-500"
+            d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          />
+        </svg>
+        <div className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="skill-particle absolute w-2 h-2 bg-blue-400/30 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${100 + Math.random() * 50}%`,
               }}
-suppressHydrationWarning
-/>
+              suppressHydrationWarning
+            />
           ))}
-</div>
-</div>
-{/* Content */}
-<div className="relative z-10 container mx-auto px-6">
-{/* Section Header */}
-<motion.div
-initial={{ opacity: 0, y: 30 }}
-whileInView={{ opacity: 1, y: 0 }}
-transition={{ duration: 0.8 }}
-viewport={{ once: true }}
-className="text-center mb-20"
->
-<h2 className="text-5xl md:text-7xl font-bold mb-6">
-<span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+        </div>
+      </div>
+
+      <div className="relative z-10 container mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center mb-20"
+        >
+          <h2 className="text-5xl md:text-7xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
               Skills &amp; Expertise
-</span>
-</h2>
-<p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+            </span>
+          </h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
             Technologies and tools I work with to bring ideas to life
-</p>
-<div className="w-24 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 rounded-full mx-auto" />
-</motion.div>
-{/* Categories */}
-<div className="space-y-16">
-{Object.entries(SKILLS_DATA).map(([category, categoryData], idx) => (
-<SkillCategory
-key={category}
-title={category}
-categoryData={categoryData}
-index={idx}
-hoveredSkill={hoveredSkill}
-setHoveredSkill={setHoveredSkill}
-/>
+          </p>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 rounded-full mx-auto" />
+        </motion.div>
+
+        <div className="space-y-16">
+          {Object.entries(SKILLS_DATA).map(([category, categoryData], idx) => (
+            <SkillCategory
+              key={category}
+              title={category}
+              categoryData={categoryData}
+              index={idx}
+            />
           ))}
-</div>
-{/* Additional Technologies */}
-<motion.div
-initial={{ opacity: 0, y: 50 }}
-whileInView={{ opacity: 1, y: 0 }}
-transition={{ duration: 0.8, delay: 0.4 }}
-viewport={{ once: true }}
-className="mt-24 text-center"
->
-<h3 className="text-2xl font-bold text-white mb-8">Additional Technologies</h3>
-<div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-{[
-'Redux',
-'Sass',
-'Webpack',
-'Babel',
-'Jenkins',
-'Kubernetes',
-'Terraform',
-'Elasticsearch',
-'RabbitMQ',
-'Nginx'
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          viewport={{ once: true }}
+          className="mt-24 text-center"
+        >
+          <h3 className="text-2xl font-bold text-white mb-8">Additional Technologies</h3>
+          <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+            {[
+              'Redux',
+              'Sass',
+              'Webpack',
+              'Babel',
+              'Jenkins',
+              'Kubernetes',
+              'Terraform',
+              'Elasticsearch',
+              'RabbitMQ',
+              'Nginx',
             ].map((tech, idx) => (
-<motion.span
-key={tech}
-initial={{ opacity: 0, scale: 0 }}
-whileInView={{ opacity: 1, scale: 1 }}
-transition={{ delay: idx * 0.05, duration: 0.5 }}
-whileHover={{ scale: 1.1, y: -5 }}
-viewport={{ once: true }}
-className="px-4 py-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-full text-gray-300 hover:text-white hover:border-blue-500 hover:bg-slate-800/70 transition-all duration-300 cursor-pointer"
->
-{tech}
-</motion.span>
+              <motion.span
+                key={tech}
+                initial={{ opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: idx * 0.05, duration: 0.5 }}
+                whileHover={{ scale: 1.1, y: -5 }}
+                viewport={{ once: true }}
+                className="px-4 py-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-full text-gray-300 hover:text-white hover:border-blue-500 hover:bg-slate-800/70 transition-all duration-300 cursor-pointer"
+              >
+                {tech}
+              </motion.span>
             ))}
-</div>
-</motion.div>
-</div>
-</section>
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 };
+
 export default Skills;

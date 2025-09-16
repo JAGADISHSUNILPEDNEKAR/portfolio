@@ -1,5 +1,4 @@
 'use client';
-
 import { motion } from 'framer-motion';
 import { forwardRef, useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
@@ -25,7 +24,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             {label}
           </label>
         )}
-        
         <div className="relative">
           {/* Icon */}
           {icon && (
@@ -33,10 +31,22 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               {icon}
             </div>
           )}
-
           {/* Input */}
-          <motion.input/>
-
+          <motion.input
+            ref={ref}
+            type={inputType}
+            className={cn(
+              "w-full px-4 py-3 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg text-white placeholder-gray-500 transition-all duration-200",
+              "focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent",
+              error && "border-red-500",
+              icon && "pl-10",
+              type === 'password' && "pr-10",
+              className
+            )}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            {...props}
+          />
           {/* Password toggle */}
           {type === 'password' && (
             <motion.button
@@ -53,7 +63,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               )}
             </motion.button>
           )}
-
           {/* Focus ring */}
           <motion.div
             animate={{
@@ -63,13 +72,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl -z-10 blur-sm"
           />
         </div>
-
-       
+        {/* Error message */}
+        {error && (
+          <p className="text-sm text-red-400">{error}</p>
+        )}
       </div>
     );
   }
 );
-
 Input.displayName = "Input";
 
 // Textarea component
@@ -89,10 +99,19 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             {label}
           </label>
         )}
-        
         <div className="relative">
-          <motion.textarea/>
-
+          <motion.textarea
+            ref={ref}
+            className={cn(
+              "w-full px-4 py-3 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg text-white placeholder-gray-500 transition-all duration-200 resize-none",
+              "focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent",
+              error && "border-red-500",
+              className
+            )}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            {...props}
+          />
           {/* Focus ring */}
           <motion.div
             animate={{
@@ -102,14 +121,14 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl -z-10 blur-sm"
           />
         </div>
-
         {/* Error message */}
-        
+        {error && (
+          <p className="text-sm text-red-400">{error}</p>
+        )}
       </div>
     );
   }
 );
-
 Textarea.displayName = "Textarea";
 
 export { Input };

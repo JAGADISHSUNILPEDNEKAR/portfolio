@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { SECTION_THEMES } from '@/lib/constants';
-import { ExternalLink, Github, Code, Eye } from 'lucide-react';
+import { ExternalLink, Github, Eye } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -195,7 +195,7 @@ const Projects = () => {
         {/* Projects Grid */}
         <div className="projects-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
+            {filteredProjects.map((project) => (
               <motion.div
                 key={project.id}
                 layout

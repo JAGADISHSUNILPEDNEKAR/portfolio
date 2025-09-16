@@ -1,5 +1,4 @@
 'use client';
-
 import { motion } from 'framer-motion';
 import { forwardRef } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
@@ -46,7 +45,14 @@ export interface ButtonProps
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, rounded, loading, children, disabled, ...props }, ref) => {
     return (
-      <motion.button>
+      <motion.button
+        ref={ref}
+        className={cn(buttonVariants({ variant, size, rounded }), className)}
+        disabled={disabled || loading}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        {...props}
+      >
         {loading && (
           <motion.div
             animate={{ rotate: 360 }}
@@ -59,7 +65,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
   }
 );
-
 Button.displayName = "Button";
 
 export { Button, buttonVariants };
