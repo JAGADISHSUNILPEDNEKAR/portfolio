@@ -491,7 +491,7 @@ const Skills = () => {
                 className="px-4 py-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-full text-gray-300 hover:text-white hover:border-blue-500 hover:bg-slate-800/70 transition-all duration-300 cursor-pointer"
               >
                 {tech}
-              </span>
+              </motion.span>
             ))}
           </div>
         </motion.div>
