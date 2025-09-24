@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 gsap.registerPlugin(ScrollTrigger);
 
@@ -79,12 +79,20 @@ const SKILLS_DATA = {
     color: 'from-indigo-500 to-purple-500',
     skills: [
       { name: 'Windows', icon: 'https://skillicons.dev/icons?i=windows' },
-      { name: 'Linux', icon: 'https://skillicons.dev/icons?i=linux' },
+      { 
+        name: 'Linux', 
+        icon: 'https://skillicons.dev/icons?i=linux',
+        isExpandable: true,
+        distros: [
+          { name: 'Ubuntu', icon: 'https://skillicons.dev/icons?i=ubuntu' },
+          { name: 'Arch', icon: 'https://skillicons.dev/icons?i=arch' },
+          { name: 'Fedora', icon: 'https://skillicons.dev/icons?i=fedora' },
+          { name: 'Debian', icon: 'https://skillicons.dev/icons?i=debian' },
+          { name: 'Kali', icon: 'https://skillicons.dev/icons?i=kali' },
+          { name: 'RedHat', icon: 'https://skillicons.dev/icons?i=redhat' },
+        ]
+      },
       { name: 'Apple', icon: 'https://skillicons.dev/icons?i=apple' },
-      { name: 'Ubuntu', icon: 'https://skillicons.dev/icons?i=ubuntu' },
-      { name: 'Arch', icon: 'https://skillicons.dev/icons?i=arch' },
-      { name: 'RedHat', icon: 'https://skillicons.dev/icons?i=redhat' },
-      { name: 'Fedora', icon: 'https://skillicons.dev/icons?i=fedora' },
     ],
   },
 } as const;
@@ -95,12 +103,16 @@ const SKILLS_DATA = {
 interface Skill {
   name: string;
   icon: string;
+  isExpandable?: boolean;
+  distros?: readonly Skill[];
 }
 
 interface SkillIconProps {
   skill: Skill;
   index: number;
   categoryIndex: number;
+  onToggleExpand?: () => void;
+  isExpanded?: boolean;
 }
 
 interface SkillCategoryProps {
@@ -116,7 +128,7 @@ interface SkillCategoryProps {
 /* -------------------------------------------------------------------------- */
 /* SUBCOMPONENTS */
 /* -------------------------------------------------------------------------- */
-const SkillIcon = ({ skill, index, categoryIndex }: SkillIconProps) => {
+const SkillIcon = ({ skill, index, categoryIndex, onToggleExpand, isExpanded }: SkillIconProps) => {
   const iconRef = useRef<HTMLDivElement>(null);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -126,7 +138,7 @@ const SkillIcon = ({ skill, index, categoryIndex }: SkillIconProps) => {
   }, []);
 
   useEffect(() => {
-    if (iconRef.current && isMounted) {
+    if (iconRef.current && isMounted && !skill.isExpandable) {
       gsap.fromTo(
         iconRef.current,
         { opacity: 0, scale: 0.5, y: 50 },
@@ -145,7 +157,7 @@ const SkillIcon = ({ skill, index, categoryIndex }: SkillIconProps) => {
         }
       );
     }
-  }, [index, categoryIndex, isMounted]);
+  }, [index, categoryIndex, isMounted, skill.isExpandable]);
 
   /* SSR Hydration Guard */
   if (!isMounted) {
@@ -154,9 +166,22 @@ const SkillIcon = ({ skill, index, categoryIndex }: SkillIconProps) => {
     );
   }
 
+  const handleClick = () => {
+    if (skill.isExpandable && onToggleExpand) {
+      onToggleExpand();
+    }
+  };
+
+  const tooltipText = skill.isExpandable ? `${skill.name} (Linux Distros)` : skill.name;
+
   return (
     <div className="relative group cursor-pointer" ref={iconRef}>
-      <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 rounded-xl flex flex-col items-center justify-center bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 hover:scale-110 hover:shadow-xl hover:shadow-blue-500/20 hover:bg-slate-700/70 hover:border-blue-500/30 transition-all duration-300 ease-out">
+      <div 
+        className={`w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 rounded-xl flex flex-col items-center justify-center bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 hover:scale-110 hover:shadow-xl hover:shadow-blue-500/20 hover:bg-slate-700/70 hover:border-blue-500/30 transition-all duration-300 ease-out ${
+          skill.isExpandable ? 'cursor-pointer' : ''
+        } ${isExpanded ? 'ring-2 ring-blue-500/50 bg-slate-700/70 border-blue-500/30' : ''}`}
+        onClick={handleClick}
+      >
         <Image
           src={skill.icon}
           alt={skill.name}
@@ -166,18 +191,60 @@ const SkillIcon = ({ skill, index, categoryIndex }: SkillIconProps) => {
           loading="lazy"
           unoptimized={true}
         />
+        {skill.isExpandable && (
+          <motion.div 
+            className="absolute bottom-1 right-1 w-4 h-4 bg-blue-500/80 rounded-full flex items-center justify-center text-xs text-white font-bold"
+            animate={{ rotate: isExpanded ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            ▼
+          </motion.div>
+        )}
       </div>
       <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-900/95 backdrop-blur-sm text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap z-20 border border-slate-700/50 shadow-xl">
-        <div className="font-medium">{skill.name}</div>
+        <div className="font-medium">{tooltipText}</div>
         <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-900/95" />
       </div>
     </div>
   );
 };
 
+const DistroIcon = ({ skill, index }: { skill: Skill; index: number }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.5, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.5, y: 20 }}
+      transition={{ 
+        duration: 0.4, 
+        delay: index * 0.05,
+        ease: "backOut"
+      }}
+      className="relative group cursor-pointer"
+    >
+      <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 rounded-lg flex flex-col items-center justify-center bg-slate-800/40 backdrop-blur-sm border border-slate-600/30 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20 hover:bg-slate-700/50 hover:border-purple-400/40 transition-all duration-300 ease-out">
+        <Image
+          src={skill.icon}
+          alt={skill.name}
+          width={32}
+          height={32}
+          className="object-contain filter drop-shadow-sm"
+          loading="lazy"
+          unoptimized={true}
+        />
+      </div>
+      <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900/95 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap z-20 border border-slate-700/50 shadow-lg">
+        <div className="font-medium">{skill.name}</div>
+        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-3 border-r-3 border-t-3 border-transparent border-t-slate-900/95" />
+      </div>
+    </motion.div>
+  );
+};
+
 const SkillCategory = ({ title, categoryData, index }: SkillCategoryProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [expandedLinux, setExpandedLinux] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -205,6 +272,10 @@ const SkillCategory = ({ title, categoryData, index }: SkillCategoryProps) => {
     }
   }, [index, isMounted]);
 
+  const handleLinuxToggle = () => {
+    setExpandedLinux(!expandedLinux);
+  };
+
   return (
     <div ref={ref} className="mb-20 relative skill-category">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
@@ -227,14 +298,47 @@ const SkillCategory = ({ title, categoryData, index }: SkillCategoryProps) => {
           <div className="relative z-10 w-full">
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6 md:gap-8 place-items-center max-w-5xl mx-auto">
               {categoryData.skills.map((skill, skillIndex) => (
-                <SkillIcon
-                  key={skill.name}
-                  skill={skill}
-                  index={skillIndex}
-                  categoryIndex={index}
-                />
+                <div key={skill.name} className="flex flex-col items-center">
+                  <SkillIcon
+                    skill={skill}
+                    index={skillIndex}
+                    categoryIndex={index}
+                    onToggleExpand={skill.isExpandable ? handleLinuxToggle : undefined}
+                    isExpanded={skill.isExpandable ? expandedLinux : undefined}
+                  />
+                </div>
               ))}
             </div>
+            
+            {/* Linux Distros Expansion */}
+            <AnimatePresence>
+              {expandedLinux && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0, y: -20 }}
+                  animate={{ opacity: 1, height: "auto", y: 0 }}
+                  exit={{ opacity: 0, height: 0, y: -20 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="mt-8 overflow-hidden"
+                >
+                  <div className="bg-slate-800/20 backdrop-blur-sm border border-slate-700/30 rounded-2xl p-6">
+                    <h4 className="text-lg font-semibold text-white mb-4 text-center">
+                      Linux Distributions
+                    </h4>
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 sm:gap-4 place-items-center max-w-3xl mx-auto">
+                      {SKILLS_DATA['Operating Systems'].skills
+                        .find(skill => skill.name === 'Linux')
+                        ?.distros?.map((distro, distroIndex) => (
+                          <DistroIcon
+                            key={distro.name}
+                            skill={distro}
+                            index={distroIndex}
+                          />
+                        ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
@@ -336,7 +440,7 @@ const Skills = () => {
         >
           <h2 className="text-5xl md:text-7xl font-bold mb-6">
             <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-              Skills &amp; Expertise
+              Skills & Expertise
             </span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
