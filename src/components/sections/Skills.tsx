@@ -79,6 +79,7 @@ const SKILLS_DATA = {
     color: 'from-indigo-500 to-purple-500',
     skills: [
       { name: 'Windows', icon: 'https://skillicons.dev/icons?i=windows' },
+      { name: 'Zos', icon: 'https://skillicons.dev/icons?i=zos' },
       { 
         name: 'Linux', 
         icon: 'https://skillicons.dev/icons?i=linux',
@@ -90,7 +91,7 @@ const SKILLS_DATA = {
           { name: 'Debian', icon: 'https://skillicons.dev/icons?i=debian' },
           { name: 'Kali', icon: 'https://skillicons.dev/icons?i=kali' },
           { name: 'RedHat', icon: 'https://skillicons.dev/icons?i=redhat' },
-          { name: 'Zos', icon: 'https://skillicons.dev/icons?i=zos' },
+          
         ]
       },
       { name: 'Apple', icon: 'https://skillicons.dev/icons?i=apple' },
