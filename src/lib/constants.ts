@@ -3,9 +3,9 @@ export const PERSONAL_INFO = {
   name: 'Jagadish Sunil Pednekar',
   title: 'Creative Developer',
   subtitle: 'I craft exceptional digital experiences with modern technologies, turning complex problems into elegant solutions.',
-  email: 'jagadish@example.com', 
-  phone: '+1 (555) 123-4567',
-  location: 'San Francisco, CA',
+  email: 'jspher16@gmail.com', 
+  phone: '+91-8073671781',
+  location: 'Bangalore,India',
   resume: '/resume.pdf'
 };
 
@@ -13,7 +13,7 @@ export const SOCIAL_LINKS = {
   github: 'https://github.com/JAGADISHSUNILPEDNEKAR',
   linkedin: 'https://linkedin.com/in/jagadish-pednekar',
   twitter: 'https://twitter.com/jagadish_dev',
-  website: 'https://jagadish.dev'
+  website: 'https://jagadishsunilpednekarportfolio.vercel.app/'
 };
 
 export const SKILLS = {
