@@ -22,8 +22,8 @@ const About = () => {
 
   const stats = useMemo(() => [
     { label: 'Years Experience', value: '1+' },
-    { label: 'Projects Completed', value: '50+' },
-    { label: 'Happy Clients', value: '25+' },
+    { label: 'Projects Completed', value: '15+' },
+    { label: 'Happy Clients', value: '5+' },
     { label: 'Technologies', value: '20+' },
   ], []);
 
@@ -273,7 +273,7 @@ const About = () => {
               <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
               <div className="relative w-64 h-64 rounded-2xl overflow-hidden border-4 border-gray-800">
                 <Image
-                  src="/images/profile.svg"
+                  src="/profile_photo.jpeg"
                   alt="Profile"
                   width={256}
                   height={256}
