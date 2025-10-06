@@ -23,16 +23,16 @@ type CustomEasing = [number, number, number, number];
 
 // Constants
 const PERSONAL_INFO = {
-  name: 'Creative Developer',
-  title: 'Full Stack Developer',
+  name: 'Jagadish S P',
+  title: 'Bitcoin Developer',
   subtitle: 'Crafting exceptional digital experiences with modern technologies, turning complex problems into elegant solutions.',
   resumeUrl: '/resume.pdf'
 };
 
 const SOCIAL_LINKS = {
-  github: 'https://github.com/yourusername',
-  linkedin: 'https://linkedin.com/in/yourusername',
-  twitter: 'https://twitter.com/yourusername'
+  github: 'https://github.com/JAGADISHSUNILPEDNEKAR/',
+  linkedin: 'https://www.linkedin.com/in/jagadish-sunil-p-117210311/',
+  twitter: 'https://x.com/Jsphere16'
 };
 
 const PARTICLE_POSITIONS: ParticlePosition[] = Array.from({ length: 20 }, (_, i) => ({
@@ -43,7 +43,7 @@ const PARTICLE_POSITIONS: ParticlePosition[] = Array.from({ length: 20 }, (_, i)
   delay: Math.random() * 5
 }));
 
-const DYNAMIC_WORDS = ['Code', 'Design', 'Create', 'Build', 'Innovate'];
+const DYNAMIC_WORDS = ['Code', 'Gym', 'Sleep', 'Eat', 'Repeat'];
 
 const Hero: React.FC = () => {
   // State
