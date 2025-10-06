@@ -12,6 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
@@ -22,7 +23,7 @@ const Projects = () => {
       id: 1,
       title: 'Payroll_Management_System',
       description: 'Terminal-based COBOL payroll system with employee management, automated salary calculations including overtime and tax, CSV export, and secure admin authentication.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/PMS.png',
       category: 'systems',
       technologies: ['COBOL', 'GnuCOBOL', 'CLI', 'File System'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/Payroll_Management_System',
@@ -33,29 +34,29 @@ const Projects = () => {
       id: 2,
       title: 'portfolio',
       description: 'Modern portfolio website built with Next.js showcasing projects and skills with optimized fonts and responsive design.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/Portfolio.webp',
       category: 'web',
       technologies: ['Next.js', 'React', 'TypeScript', 'Vercel'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/portfolio',
-      demo: 'https://github.com/JAGADISHSUNILPEDNEKAR/portfolio',
-      featured: false,
+      demo: 'https://jagadishsunilpednekarportfolio.vercel.app/',
+      featured: true,
     },
     {
       id: 3,
       title: 'Guess-the-number',
       description: 'Interactive number guessing game with single and multiplayer modes, performance classification, real-time scoring leaderboard, and celebratory fireworks animations.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/GTN.png',
       category: 'web',
       technologies: ['JavaScript', 'HTML', 'CSS', 'Canvas Confetti'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/Guess-the-number',
       demo: 'https://jagadishsunilpednekar.github.io/Guess-the-number/',
-      featured: false,
+      featured: true,
     },
     {
       id: 4,
       title: 'MusicPlayer',
       description: 'Feature-rich WPF music player with playlist management, supporting multiple audio formats (MP3, WAV, FLAC), shuffle and repeat modes, and persistent settings.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/MP.webp',
       category: 'design',
       technologies: ['C#', 'WPF', '.NET', 'NAudio', 'TagLib'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/MusicPlayer',
@@ -66,7 +67,7 @@ const Projects = () => {
       id: 5,
       title: 'TICTACTOE',
       description: 'iOS Tic-Tac-Toe game with intelligent AI opponents using minimax algorithm, featuring MVVM architecture, smooth animations, and multiple difficulty levels.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/ttt.png',
       category: 'mobile',
       technologies: ['Swift', 'SwiftUI', 'Combine', 'iOS'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/TICTACTOE',
@@ -77,7 +78,7 @@ const Projects = () => {
       id: 6,
       title: 'kenken-game',
       description: 'Mathematical puzzle game implementing KenKen logic with constraint satisfaction and interactive gameplay.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/kenken.jpg',
       category: 'web',
       technologies: ['JavaScript', 'HTML', 'CSS', 'Game Logic'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/kenken-game',
@@ -88,7 +89,7 @@ const Projects = () => {
       id: 7,
       title: 'blockchain-lottery-platform',
       description: 'Decentralized lottery and gaming platform with Chainlink VRF for provable randomness, featuring automated payouts, blackjack, and bingo on Ethereum blockchain.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/BLP.png',
       category: 'blockchain',
       technologies: ['Solidity', 'React', 'Ethers.js', 'Chainlink', 'Hardhat'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/blockchain-lottery-platform',
@@ -99,7 +100,7 @@ const Projects = () => {
       id: 8,
       title: 'toy-docker-compose',
       description: 'Simplified Docker Compose implementation in Scala with YAML parsing, service orchestration, dependency resolution, and comprehensive logging for container management.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/scala-docker.png',
       category: 'systems',
       technologies: ['Scala', 'SBT', 'Docker', 'YAML', 'SnakeYAML'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/toy-docker-compose',
@@ -109,8 +110,8 @@ const Projects = () => {
     {
       id: 9,
       title: 'monoalphabetic-cipher',
-      description: 'Assembly-based encryption tool implementing monoalphabetic substitution cipher with case preservation, input validation, and educational cryptography demonstration.',
-      image: '/images/projects/ecommerce.jpg',
+      description: 'Assembly-based encryption tool implementing monoalphaegbetic substitution cipher with case preservation, input validation, and educational cryptography demonstration.',
+      image: '/images/projects/mc.jpeg',
       category: 'systems',
       technologies: ['Assembly', 'x86-64', 'NASM', 'Linux'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/monoalphabetic-cipher',
@@ -121,7 +122,7 @@ const Projects = () => {
       id: 10,
       title: 'J-MATH-SOLVER',
       description: 'Interactive mathematical problem solver using J programming language for algebraic equations, statistics, calculus, and Monte Carlo simulations with CLI and API support.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/jsolver.png',
       category: 'fullstack',
       technologies: ['J', 'Node.js', 'JavaScript', 'Linear Algebra'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/J-MATH-SOLVER',
@@ -132,7 +133,7 @@ const Projects = () => {
       id: 11,
       title: 'CFD_SOLVER',
       description: 'Computational Fluid Dynamics solver for Navier-Stokes equations with turbulence modeling, parallel computing support (OpenMP/MPI), and multiple discretization schemes.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/CFD.webp',
       category: 'systems',
       technologies: ['Fortran', 'C++', 'OpenMP', 'MPI', 'CMake'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/CFD_SOLVER',
@@ -143,7 +144,7 @@ const Projects = () => {
       id: 12,
       title: 'JuiceWRLD',
       description: 'Dynamic music website with real-time lyrics synchronization during playback, featuring engaging UI, playlist functionality, and Web Audio API integration.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/JW.jpeg',
       category: 'web',
       technologies: ['JavaScript', 'HTML', 'CSS', 'Web Audio API'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/JuiceWRLD',
@@ -154,29 +155,29 @@ const Projects = () => {
       id: 13,
       title: 'CodePilot_Ai',
       description: 'AI-powered code review platform detecting bugs and security vulnerabilities, with GitHub integration, health scoring, contextual explanations, and educational feedback for developers.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/CodePilot.png',
       category: 'ai',
       technologies: ['React', 'Node.js', 'MongoDB', 'Gemini API', 'Express'],
       github: 'https://github.com/PriyanshuPandey008/CodePilot_Ai',
-      demo: 'https://github.com/PriyanshuPandey008/CodePilot_Ai',
+      demo: 'https://ai-code-frontend.vercel.app',
       featured: true,
     },
     {
       id: 14,
       title: 'Habit_Tracker',
       description: 'Web application for building healthy habits with interactive calendar, progress visualization, habit logging, and persistent local storage for consistent tracking.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/HabitTracker.png',
       category: 'web',
       technologies: ['HTML', 'CSS', 'JavaScript', 'LocalStorage'],
       github: 'https://github.com/raj-aryan-official/Habit-Tracker-',
       demo: 'https://vermillion-longma-89f32f.netlify.app/',
-      featured: false,
+      featured: true,
     },
     {
       id: 15,
       title: 'Brainerzz',
       description: 'Study platform generating interactive flashcards from lengthy texts using NLP, extracting key definitions and formulas to reduce exam anxiety and enhance learning efficiency.',
-      image: '/images/projects/ecommerce.jpg',
+      image: '/images/projects/Brainerzz.png',
       category: 'fullstack',
       technologies: ['Node.js', 'Express', 'MongoDB', 'NLP', 'JWT'],
       github: 'https://github.com/JAGADISHSUNILPEDNEKAR/Final-Project-GSoC',
@@ -224,28 +225,6 @@ const Projects = () => {
           scrub: true,
         },
       });
-
-      // Project cards entrance
-      gsap.fromTo(
-        '.project-card',
-        {
-          opacity: 0,
-          y: 60,
-          scale: 0.9,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '.projects-grid',
-            start: 'top 75%',
-          },
-        }
-      );
 
       // Filter buttons animation
       gsap.fromTo(
@@ -356,102 +335,119 @@ const Projects = () => {
           ))}
         </div>
 
-        {/* Projects Grid */}
-        <div className="projects-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
-              <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.5 }}
-                className="project-card group relative"
-                onMouseEnter={() => setHoveredProject(project.id)}
-                onMouseLeave={() => setHoveredProject(null)}
-              >
-                <div className="relative bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl overflow-hidden hover:bg-slate-800/70 transition-all duration-300">
-                  {/* Project Image */}
-                  <div className="relative h-48 overflow-hidden bg-slate-900">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    
-                    {/* Overlay with Actions */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute bottom-4 left-4 right-4 flex gap-3">
-                        <a
-                          href={project.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-medium flex items-center justify-center gap-2 transition-colors"
-                        >
-                          <Eye className="w-4 h-4" />
-                          Live Demo
-                        </a>
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium flex items-center justify-center gap-2 transition-colors"
-                        >
-                          <Github className="w-4 h-4" />
-                          Code
-                        </a>
+        {/* Horizontal Scroll Container */}
+        <div className="relative">
+          <div 
+            ref={scrollContainerRef}
+            className="flex gap-8 overflow-x-auto pb-8 snap-x snap-mandatory scroll-smooth scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-amber-500/50 hover:scrollbar-thumb-amber-500/70"
+            style={{
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(245, 158, 11, 0.5) rgba(30, 41, 59, 0.5)',
+            }}
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -100 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="flex-shrink-0 w-[350px] md:w-[400px] snap-center group relative"
+                  onMouseEnter={() => setHoveredProject(project.id)}
+                  onMouseLeave={() => setHoveredProject(null)}
+                >
+                  <div className="relative bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl overflow-hidden hover:bg-slate-800/70 transition-all duration-300 h-full flex flex-col">
+                    {/* Project Image */}
+                    <div className="relative h-48 overflow-hidden bg-slate-900 flex-shrink-0">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      
+                      {/* Overlay with Actions */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute bottom-4 left-4 right-4 flex gap-3">
+                          <a
+                            href={project.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-medium flex items-center justify-center gap-2 transition-colors"
+                          >
+                            <Eye className="w-4 h-4" />
+                            Live Demo
+                          </a>
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium flex items-center justify-center gap-2 transition-colors"
+                          >
+                            <Github className="w-4 h-4" />
+                            Code
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* Featured Badge */}
+                      {project.featured && (
+                        <div className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-semibold rounded-full shadow-lg">
+                          Featured
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Project Content */}
+                    <div className="p-6 flex-grow flex flex-col">
+                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-gray-400 text-sm mb-4 leading-relaxed flex-grow line-clamp-3">
+                        {project.description}
+                      </p>
+
+                      {/* Technologies */}
+                      <div className="flex flex-wrap gap-2 mt-auto">
+                        {project.technologies.slice(0, 4).map((tech, techIndex) => (
+                          <motion.span
+                            key={tech}
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: techIndex * 0.05 }}
+                            className="px-3 py-1 bg-slate-900/50 border border-slate-600 rounded-md text-xs text-gray-300 hover:text-amber-400 hover:border-amber-500/50 transition-all duration-200"
+                          >
+                            {tech}
+                          </motion.span>
+                        ))}
+                        {project.technologies.length > 4 && (
+                          <span className="px-3 py-1 bg-slate-900/50 border border-slate-600 rounded-md text-xs text-gray-400">
+                            +{project.technologies.length - 4}
+                          </span>
+                        )}
                       </div>
                     </div>
 
-                    {/* Featured Badge */}
-                    {project.featured && (
-                      <div className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-semibold rounded-full shadow-lg">
-                        Featured
-                      </div>
+                    {/* Hover Glow Effect */}
+                    {hoveredProject === project.id && (
+                      <motion.div
+                        layoutId="projectGlow"
+                        className="absolute inset-0 border-2 border-amber-500/50 rounded-xl pointer-events-none"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                      />
                     )}
                   </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
 
-                  {/* Project Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    {/* Technologies */}
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, techIndex) => (
-                        <motion.span
-                          key={tech}
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: techIndex * 0.05 }}
-                          className="px-3 py-1 bg-slate-900/50 border border-slate-600 rounded-md text-xs text-gray-300 hover:text-amber-400 hover:border-amber-500/50 transition-all duration-200"
-                        >
-                          {tech}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Hover Glow Effect */}
-                  {hoveredProject === project.id && (
-                    <motion.div
-                      layoutId="projectGlow"
-                      className="absolute inset-0 border-2 border-amber-500/50 rounded-xl pointer-events-none"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    />
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+          {/* Scroll Hint Gradient Overlays */}
+          <div className="absolute left-0 top-0 bottom-8 w-16 bg-gradient-to-r from-gray-950 to-transparent pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-8 w-16 bg-gradient-to-l from-gray-950 to-transparent pointer-events-none" />
         </div>
 
         {/* View More Button */}
@@ -470,6 +466,28 @@ const Projects = () => {
           </button>
         </motion.div>
       </div>
+
+      <style jsx>{`
+        /* Custom scrollbar for Webkit browsers */
+        .overflow-x-auto::-webkit-scrollbar {
+          height: 8px;
+        }
+        
+        .overflow-x-auto::-webkit-scrollbar-track {
+          background: rgba(30, 41, 59, 0.5);
+          border-radius: 4px;
+        }
+        
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+          background: rgba(245, 158, 11, 0.5);
+          border-radius: 4px;
+          transition: background 0.3s ease;
+        }
+        
+        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+          background: rgba(245, 158, 11, 0.7);
+        }
+      `}</style>
     </section>
   );
 };
