@@ -3,7 +3,7 @@ export const PERSONAL_INFO = {
   name: 'Jagadish Sunil Pednekar',
   title: 'Creative Developer',
   subtitle: 'I craft exceptional digital experiences with modern technologies, turning complex problems into elegant solutions.',
-  email: 'jspher16@gmail.com', 
+  email: 'jsphere16@gmail.com', 
   phone: '+91-8073671781',
   location: 'Bangalore,India',
   resume: '/resume.pdf'
