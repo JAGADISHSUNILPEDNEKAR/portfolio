@@ -28,39 +28,48 @@ const About = () => {
   ], []);
 
   const timeline = [
-    {
-      year: '2025',
-      title: 'Bitcoin Developer',
-      company: 'python-bitcoin-utils',
-      type: 'work',
-      description:
-        'Implementing Bitcoin Improvement Protocols and contributing to the open-source Bitcoin ecosystem.',
-    },
-    {
-      year: '2022',
-      title: 'Full Stack Developer',
-      company: 'StartupXYZ',
-      type: 'work',
-      description:
-        'Built and maintained multiple client projects, focusing on performance and user experience.',
-    },
-    {
-      year: '2020',
-      title: "Bachelor's in Computer Science",
-      company: 'University of Technology',
-      type: 'education',
-      description:
-        'Graduated with honors, specialized in software engineering and web development.',
-    },
-    {
-      year: '2019',
-      title: 'Frontend Developer',
-      company: 'Digital Agency Pro',
-      type: 'work',
-      description:
-        'Started career focusing on modern frontend technologies and responsive design.',
-    },
-  ];
+      {
+        year: 'Oct 2025 - Present',
+        title: 'Open Source Contributor',
+        company: 'Hacktoberfest',
+        type: 'work',
+        description:
+          'Contributing to various open-source projects during Hacktoberfest, collaborating with developers worldwide.',
+      },
+      {
+        year: 'Sep 2025 - Oct 2025',
+        title: 'Open Source Maintainer',
+        company: 'Payroll Management System',
+        type: 'work',
+        description:
+          'Maintained the Payroll Management System repository, reviewing pull requests, managing issues, and guiding contributors.',
+      },
+      {
+        year: 'Sep 2025 - Present',
+        title: 'Teaching Assistant',
+        company: 'Polaris School of Technology',
+        type: 'work',
+        description:
+          'Teaching students Git and GitHub fundamentals, version control best practices, and collaborative development workflows.',
+      },
+      
+      {
+        year: 'May 2025 - Jul 2025',
+        title: 'Bitcoin Developer',
+        company: 'python-bitcoin-utils',
+        type: 'work',
+        description:
+          'Implemented Bitcoin Improvement Protocols and contributed to the open-source Bitcoin ecosystem.',
+      },
+      {
+        year: '2024 - 2028',
+        title: "Bachelor of Technology in Computer Science",
+        company: 'Polaris School of Technology',
+        type: 'education',
+        description:
+          'Pursuing B.Tech with specialization in AI/ML. Expected graduation in 2028.',
+      },
+    ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
