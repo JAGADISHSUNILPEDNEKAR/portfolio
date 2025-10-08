@@ -473,7 +473,7 @@ const Skills = () => {
           <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
             {[
               'Redux',
-              'Sass',
+              'SaaS',
               'Webpack',
               'Babel',
               'Jenkins',
