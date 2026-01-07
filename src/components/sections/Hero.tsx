@@ -209,7 +209,7 @@ const Hero: React.FC = () => {
             <Magnetic>
               <a
                 href="#projects"
-                className="relative px-8 py-4 bg-white text-black font-bold font-mono tracking-wider uppercase overflow-hidden hover:scale-105 transition-transform duration-300 group rounded-full"
+                className="relative px-8 py-4 bg-white text-black font-bold font-mono tracking-wider uppercase overflow-hidden hover:scale-105 transition-transform duration-300 group rounded-full flex items-center justify-center"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   View My Work <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
