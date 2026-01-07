@@ -9,6 +9,8 @@ import {
   useMotionValue,
   useMotionTemplate,
 } from 'framer-motion';
+import { SOCIAL_LINKS, PERSONAL_INFO as GLOBAL_PERSONAL_INFO } from '@/lib/constants';
+import { ArrowRight, Download, Linkedin, Github, Twitter } from 'lucide-react';
 
 // --- Types ---
 
@@ -145,6 +147,20 @@ const RainColumn = ({ index }: { index: number }) => {
     </motion.div>
   );
 };
+
+const SocialLink = ({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) => (
+  <motion.a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="p-3 text-white/50 hover:text-emerald-400 hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-emerald-500/20 backdrop-blur-sm group"
+    whileHover={{ scale: 1.1, y: -2 }}
+    whileTap={{ scale: 0.95 }}
+    aria-label={label}
+  >
+    {React.cloneElement(icon as React.ReactElement<any>, { className: "w-5 h-5 transition-transform group-hover:rotate-12" })}
+  </motion.a>
+);
 
 // --- Main Hero Component ---
 
@@ -290,6 +306,54 @@ const Hero: React.FC = () => {
             </div>
           </motion.div>
         </div>
+
+        {/* Actions & Socials */}
+        <motion.div
+          className="mt-16 flex flex-col items-center gap-8 relative z-20"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5, duration: 0.8 }}
+        >
+          {/* Action Buttons */}
+          <div className="flex flex-col md:flex-row gap-6">
+            <motion.a
+              href="#projects"
+              className="group relative px-8 py-4 bg-white text-black font-bold font-mono tracking-wider uppercase overflow-hidden hover:scale-105 transition-transform duration-300 clip-path-slant"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <div className="absolute inset-0 bg-emerald-400 mix-blend-difference opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <span className="relative flex items-center gap-2">
+                View My Work <ArrowRight className="w-4 h-4" />
+              </span>
+            </motion.a>
+
+            <motion.a
+              href={GLOBAL_PERSONAL_INFO.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group px-8 py-4 border border-white/20 hover:bg-white/5 font-mono text-sm tracking-wider uppercase transition-all duration-300 hover:border-emerald-500/50 hover:text-emerald-400 backdrop-blur-sm"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="flex items-center gap-2">
+                Download Resume <Download className="w-4 h-4" />
+              </span>
+            </motion.a>
+          </div>
+
+          {/* Connect Status */}
+          <div className="flex flex-col items-center gap-4 mt-8">
+            <div className="h-px w-24 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <span className="text-[10px] font-mono text-emerald-500/60 tracking-[0.3em] uppercase">Connect Uplink</span>
+
+            <div className="flex gap-4 p-2 rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md">
+              <SocialLink href={SOCIAL_LINKS.linkedin} icon={<Linkedin />} label="LinkedIn" />
+              <SocialLink href={SOCIAL_LINKS.github} icon={<Github />} label="Portfolio (GitHub)" />
+              <SocialLink href={SOCIAL_LINKS.twitter} icon={<Twitter />} label="X" />
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
 
       {/* 3. Foreground Overlay (Glass & Steel Vignette) */}
