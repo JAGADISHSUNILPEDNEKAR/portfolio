@@ -28,48 +28,48 @@ const About = () => {
   ], []);
 
   const timeline = [
-      {
-        year: 'Oct 2025 - Present',
-        title: 'Open Source Contributor',
-        company: 'Hacktoberfest',
-        type: 'work',
-        description:
-          'Contributing to various open-source projects during Hacktoberfest, collaborating with developers worldwide.',
-      },
-      {
-        year: 'Sep 2025 - Oct 2025',
-        title: 'Open Source Maintainer',
-        company: 'Payroll Management System',
-        type: 'work',
-        description:
-          'Maintained the Payroll Management System repository, reviewing pull requests, managing issues, and guiding contributors.',
-      },
-      {
-        year: 'Sep 2025 - Present',
-        title: 'Teaching Assistant',
-        company: 'Polaris School of Technology',
-        type: 'work',
-        description:
-          'Teaching students Git and GitHub fundamentals, version control best practices, and collaborative development workflows.',
-      },
-      
-      {
-        year: 'May 2025 - Jul 2025',
-        title: 'Bitcoin Developer',
-        company: 'python-bitcoin-utils',
-        type: 'work',
-        description:
-          'Implemented Bitcoin Improvement Protocols and contributed to the open-source Bitcoin ecosystem.',
-      },
-      {
-        year: '2024 - 2028',
-        title: "Bachelor of Technology in Computer Science",
-        company: 'Polaris School of Technology',
-        type: 'education',
-        description:
-          'Pursuing B.Tech with specialization in AI/ML. Expected graduation in 2028.',
-      },
-    ];
+    {
+      year: 'Oct 2025 - Present',
+      title: 'Open Source Contributor',
+      company: 'Hacktoberfest',
+      type: 'work',
+      description:
+        'Contributing to various open-source projects during Hacktoberfest, collaborating with developers worldwide.',
+    },
+    {
+      year: 'Sep 2025 - Oct 2025',
+      title: 'Open Source Maintainer',
+      company: 'Payroll Management System',
+      type: 'work',
+      description:
+        'Maintained the Payroll Management System repository, reviewing pull requests, managing issues, and guiding contributors.',
+    },
+    {
+      year: 'Sep 2025 - Present',
+      title: 'Teaching Assistant',
+      company: 'Polaris School of Technology',
+      type: 'work',
+      description:
+        'Teaching students Git and GitHub fundamentals, version control best practices, and collaborative development workflows.',
+    },
+
+    {
+      year: 'May 2025 - Jul 2025',
+      title: 'Bitcoin Developer',
+      company: 'python-bitcoin-utils',
+      type: 'work',
+      description:
+        'Implemented Bitcoin Improvement Protocols and contributed to the open-source Bitcoin ecosystem.',
+    },
+    {
+      year: '2024 - 2028',
+      title: "Bachelor of Technology in Computer Science",
+      company: 'Polaris School of Technology',
+      type: 'education',
+      description:
+        'Pursuing B.Tech with specialization in AI/ML. Expected graduation in 2028.',
+    },
+  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -186,9 +186,8 @@ const About = () => {
     index: number;
   }) => (
     <div
-      className={`timeline-item relative flex items-center gap-8 mb-12 ${
-        index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
-      }`}
+      className={`timeline-item relative flex items-center gap-8 mb-12 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
+        }`}
     >
       <div className={`flex-1 ${index % 2 === 0 ? 'text-right' : 'text-left'}`}>
         <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-gray-600 hover:bg-gray-900/70 transition-all duration-300">
@@ -264,7 +263,7 @@ const About = () => {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
               About Me
             </span>
