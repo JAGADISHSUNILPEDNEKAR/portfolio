@@ -1,391 +1,174 @@
 'use client';
 
-import { useEffect, useRef, useMemo } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import {
-  AcademicCapIcon,
-  BriefcaseIcon,
-  UserIcon,
-} from '@heroicons/react/24/outline';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ShieldCheck, ChevronRight } from 'lucide-react';
+import CyberProfile from './about/CyberProfile';
+import SystemStats from './about/SystemStats';
+import TimelineLedger, { TimelineItem } from './about/TimelineLedger';
+import Magnetic from '../ui/Magnetic';
 
-gsap.registerPlugin(ScrollTrigger);
+// --- Data Constants ---
+const TIMELINE_DATA: TimelineItem[] = [
+  {
+    year: '2025.10 - PRESENT',
+    title: 'OPEN_SOURCE_CONTRIBUTOR',
+    company: 'HACKTOBERFEST',
+    type: 'work',
+    description: 'Protocol injection into global repositories. Collaborating with distributed nodes worldwide to enhance codebase integrity.',
+    tech: ['Git', 'OSS', 'CI/CD']
+  },
+  {
+    year: '2025.09 - 2025.10',
+    title: 'REPO_MAINTAINER',
+    company: 'PAYROLL_SYSTEMS',
+    type: 'work',
+    description: 'Core system maintenance. Audited pull requests, resolved critical issues, and optimized contributor workflows.',
+    tech: ['Review', 'Merge', 'Deploy']
+  },
+  {
+    year: '2025.09 - PRESENT',
+    title: 'INSTRUCTION_SET_ARCHITECT',
+    company: 'POLARIS_TECH',
+    type: 'work',
+    description: 'Teaching Assistant. deploying knowledge packets on Git/GitHub fundamentals and version control protocols to new instances.',
+    tech: ['Teaching', 'Mentorship']
+  },
+  {
+    year: '2025.05 - 2025.07',
+    title: 'BITCOIN_PROTOCOL_DEV',
+    company: 'PYTHON_BITCOIN_LIB',
+    type: 'work',
+    description: 'Cryptographic implementation. Executed Bitcoin Improvement Protocols (BIPs) and fortified the open-source ecosystem.',
+    tech: ['Cryptography', 'Python', 'BTC']
+  },
+  {
+    year: '2024 - 2028',
+    title: 'B.TECH_CS_AI/ML',
+    company: 'POLARIS_SCHOOL',
+    type: 'education',
+    description: 'Deep learning ingestion. Specializing in Artificial Intelligence and Machine Learning architectures. Expected compilation: 2028.',
+    tech: ['AI', 'ML', 'Neural Nets']
+  }
+];
 
 const About = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
-  // Ref for all counter spans
-  const counterRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
 
-  const stats = useMemo(() => [
-    { label: 'Years Experience', value: '1+' },
-    { label: 'Projects Completed', value: '15+' },
-    { label: 'Happy Clients', value: '5+' },
-    { label: 'Technologies', value: '20+' },
-  ], []);
-
-  const timeline = [
-    {
-      year: 'Oct 2025 - Present',
-      title: 'Open Source Contributor',
-      company: 'Hacktoberfest',
-      type: 'work',
-      description:
-        'Contributing to various open-source projects during Hacktoberfest, collaborating with developers worldwide.',
-    },
-    {
-      year: 'Sep 2025 - Oct 2025',
-      title: 'Open Source Maintainer',
-      company: 'Payroll Management System',
-      type: 'work',
-      description:
-        'Maintained the Payroll Management System repository, reviewing pull requests, managing issues, and guiding contributors.',
-    },
-    {
-      year: 'Sep 2025 - Present',
-      title: 'Teaching Assistant',
-      company: 'Polaris School of Technology',
-      type: 'work',
-      description:
-        'Teaching students Git and GitHub fundamentals, version control best practices, and collaborative development workflows.',
-    },
-
-    {
-      year: 'May 2025 - Jul 2025',
-      title: 'Bitcoin Developer',
-      company: 'python-bitcoin-utils',
-      type: 'work',
-      description:
-        'Implemented Bitcoin Improvement Protocols and contributed to the open-source Bitcoin ecosystem.',
-    },
-    {
-      year: '2024 - 2028',
-      title: "Bachelor of Technology in Computer Science",
-      company: 'Polaris School of Technology',
-      type: 'education',
-      description:
-        'Pursuing B.Tech with specialization in AI/ML. Expected graduation in 2028.',
-    },
-  ];
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Parallax background effect
-      gsap.to('.about-bg-gradient', {
-        yPercent: -30,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-
-      // Profile image animation
-      if (imageRef.current) {
-        gsap.fromTo(
-          imageRef.current,
-          {
-            scale: 0.8,
-            opacity: 0,
-            rotateY: -30,
-          },
-          {
-            scale: 1,
-            opacity: 1,
-            rotateY: 0,
-            duration: 1.2,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: imageRef.current,
-              start: 'top 80%',
-            },
-          }
-        );
-      }
-
-      // Timeline items stagger animation
-      gsap.fromTo(
-        '.timeline-item',
-        {
-          opacity: 0,
-          x: (index: number) => (index % 2 === 0 ? -50 : 50),
-        },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          stagger: 0.2,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: timelineRef.current,
-            start: 'top 70%',
-          },
-        }
-      );
-
-      // Stats counter animation - use refs!
-      counterRefs.current.forEach((el, idx) => {
-        if (el) {
-          // Get numeric part of value for animation (ignoring "+")
-          const endVal = parseInt(stats[idx].value, 10);
-          gsap.fromTo(
-            el,
-            { textContent: 0 },
-            {
-              textContent: endVal,
-              duration: 2,
-              ease: 'power1.in',
-              snap: { textContent: 1 },
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: 'top 80%',
-              },
-              onUpdate: function () {
-                el.textContent =
-                  Math.floor(Number(el.textContent)).toString() +
-                  (stats[idx].value.endsWith('+') ? '+' : '');
-              },
-            }
-          );
-        }
-      });
-
-      // Content text reveal animation
-      gsap.fromTo(
-        '.content-text p',
-        {
-          opacity: 0,
-          y: 20,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.2,
-          scrollTrigger: {
-            trigger: '.content-text',
-            start: 'top 80%',
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [stats]); // Add stats to dependency array
-
-  const TimelineItem = ({
-    item,
-    index,
-  }: {
-    item: typeof timeline[0];
-    index: number;
-  }) => (
-    <div
-      className={`timeline-item relative flex items-center gap-8 mb-12 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
-        }`}
-    >
-      <div className={`flex-1 ${index % 2 === 0 ? 'text-right' : 'text-left'}`}>
-        <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-gray-600 hover:bg-gray-900/70 transition-all duration-300">
-          <div className="flex items-center gap-2 mb-2">
-            {item.type === 'work' ? (
-              <BriefcaseIcon className="w-5 h-5 text-blue-400" />
-            ) : (
-              <AcademicCapIcon className="w-5 h-5 text-green-400" />
-            )}
-            <span className="text-sm font-medium text-gray-400">
-              {item.year}
-            </span>
-          </div>
-          <h3 className="text-lg font-bold text-white mb-1">{item.title}</h3>
-          <p className="text-blue-400 font-medium mb-3">{item.company}</p>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            {item.description}
-          </p>
-        </div>
-      </div>
-      {/* Timeline Dot */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full border-4 border-gray-950" />
-      {index < timeline.length - 1 && (
-        <div className="absolute left-1/2 transform -translate-x-1/2 top-4 w-0.5 h-16 bg-gradient-to-b from-blue-500/50 to-transparent" />
-      )}
-      <div className="flex-1" />
-    </div>
-  );
+  const yBackground = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const opacityHeader = useTransform(scrollYProgress, [0, 0.2, 0.9, 1], [0, 1, 1, 0]);
 
   return (
-    <section
-      ref={sectionRef}
-      id="about"
-      className="relative py-32 bg-gradient-to-b from-slate-950 to-gray-950 overflow-hidden"
-    >
-      {/* Animated Background */}
-      <div className="about-bg-gradient absolute inset-0">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse animation-delay-2000" />
-        </div>
-        {/* Animated Grid Lines */}
-        <svg
-          className="absolute inset-0 w-full h-full opacity-10"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <pattern
-              id="grid"
-              width="40"
-              height="40"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 40 0 L 0 0 0 40"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-                className="text-blue-500"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
+    <section ref={containerRef} id="about" className="relative min-h-screen py-32 bg-black overflow-hidden selection:bg-blue-500/30">
 
-      <div className="relative z-10 container mx-auto px-6">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-20"
-        >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              About Me
+      {/* --- Parallax Background Layers --- */}
+      <motion.div style={{ y: yBackground }} className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px]" />
+      </motion.div>
+
+      <div className="container mx-auto px-6 relative z-10">
+
+        {/* --- Header --- */}
+        <motion.div style={{ opacity: opacityHeader }} className="mb-24 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/5 border border-blue-500/20 mb-6 backdrop-blur-sm">
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse shadow-[0_0_10px_#3b82f6]" />
+            <span className="text-xs font-mono text-blue-400 tracking-[0.2em] uppercase">
+              System Diagnostics // v2.0.4
+            </span>
+          </div>
+
+          <h2 className="text-4xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 mb-6 tracking-tight uppercase relative inline-block">
+            ABOUT_THE_ALCHMEMIST
+            <span className="absolute -top-4 -right-8 text-xs font-mono text-gray-700 md:block hidden">
+              [ETH_MAINNET]
             </span>
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Passionate developer with a love for creating exceptional digital
-            experiences
+
+          <p className="text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
+            Forging digital realities through <span className="text-white font-medium">visceral physics</span> and <span className="text-white font-medium">immutable code</span>.
+            <br className="hidden md:block" />
+            <span className="text-blue-500/70 font-mono text-xs mt-4 block">
+              &gt; executing runtime...
+            </span>
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
-          {/* Profile Section */}
-          <div ref={imageRef} className="relative group">
-            <div className="relative inline-block">
-              <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
-              <div className="relative w-64 h-64 rounded-2xl overflow-hidden border-4 border-gray-800">
-                <Image
-                  src="/profile_photo.jpeg"
-                  alt="Profile"
-                  width={256}
-                  height={256}
-                  className="object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                <UserIcon className="w-8 h-8 text-white" />
+        {/* --- Main Grid --- */}
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 mb-32 items-start">
+
+          {/* Left Column: Avatar & ID */}
+          <div className="lg:col-span-5 flex flex-col items-center lg:items-end">
+            <div className="sticky top-24">
+              <Magnetic>
+                <CyberProfile />
+              </Magnetic>
+
+              <div className="mt-12 flex justify-center lg:justify-end w-full">
+                <Magnetic>
+                  <button className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/50 text-white font-mono text-xs tracking-widest uppercase transition-all duration-300 flex items-center gap-3 group relative overflow-hidden">
+                    <div className="absolute inset-0 bg-blue-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                    <ShieldCheck className="w-4 h-4 text-gray-500 group-hover:text-blue-400 z-10" />
+                    <span className="z-10">Verify_Identity</span>
+                  </button>
+                </Magnetic>
               </div>
             </div>
           </div>
 
-          {/* Content Section */}
-          <div className="space-y-6">
-            <motion.h3
-              initial={{ opacity: 0, x: 30 }}
+          {/* Right Column: Stats & Log */}
+          <div className="lg:col-span-7 space-y-12 pt-8 lg:pt-0">
+            <SystemStats />
+
+            {/* Narrative Log */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-2xl font-bold text-white mb-4"
+              className="bg-gray-900/40 border border-white/5 p-8 relative overflow-hidden backdrop-blur-sm group"
             >
-              Building the Future, One Line of Code at a Time
-            </motion.h3>
+              <div className="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-50 transition-opacity">
+                <ChevronRight className="w-12 h-12 text-white" />
+              </div>
 
-            <div className="content-text space-y-4 text-gray-400 leading-relaxed">
-              <p>
-                I&apos;m a passionate full-stack developer with over 1 years of
-                experience creating scalable web applications and digital
-                solutions. My journey in tech started with a curiosity for how
-                things work and evolved into a career focused on building
-                exceptional user experiences.
-              </p>
-              <p>
-                I specialize in modern JavaScript frameworks, particularly React
-                and Node.js, and I&apos;m always eager to learn new technologies that
-                can improve the development process and end-user experience.
-              </p>
-              <p>
-                When I&apos;m not coding, you&apos;ll find me contributing to open-source
-                projects, writing technical articles, or exploring the latest
-                trends in web development.
-              </p>
-            </div>
+              <h3 className="text-sm font-mono text-blue-400 mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 bg-blue-500 rounded-sm" />
+                KERNEL_LOG_DUMP
+              </h3>
 
-            {/* Stats */}
-            <div className="stats-container grid grid-cols-2 gap-4">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.6 + index * 0.1, duration: 0.6 }}
-                  viewport={{ once: true }}
-                  className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-4 text-center hover:border-gray-600 hover:bg-gray-900/70 transition-all duration-300"
-                >
-                  <div className="text-2xl font-bold text-white mb-1">
-                    {/* Fixed ref callback - no return value */}
-                    <span
-                      className="stat-number"
-                      ref={(el) => {
-                        counterRefs.current[index] = el;
-                      }}
-                    >
-                      {stat.value}
-                    </span>
-                  </div>
-                  <div className="text-sm text-gray-400">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
+              <div className="space-y-6 text-gray-400 font-light leading-7">
+                <p>
+                  <strong className="text-white block mb-1 font-mono text-xs uppercase tracking-wider">0x01_INIT</strong>
+                  Obsessed with the architecture of the web. I don&apos;t just build interfaces; I engineer experiences that feel alive.
+                </p>
+                <p>
+                  <strong className="text-white block mb-1 font-mono text-xs uppercase tracking-wider">0x02_STACK</strong>
+                  Specialized in React, Next.js, and crypto-native technologies.
+                  <span className="text-gray-600 italic"> // Always optimizing for low latency and high throughput.</span>
+                </p>
+                <p>
+                  <strong className="text-white block mb-1 font-mono text-xs uppercase tracking-wider">0x03_GOAL</strong>
+                  building the future of the internet, one block at a time.
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* Timeline */}
-        <div ref={timelineRef} className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h3 className="text-3xl font-bold text-white mb-4">My Journey</h3>
-            <p className="text-gray-400">
-              Key milestones in my professional development
-            </p>
-          </motion.div>
-
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-blue-500 to-purple-500 opacity-30" />
-
-            {/* Timeline Items */}
-            <div className="space-y-8">
-              {timeline.map((item, index) => (
-                <TimelineItem
-                  key={`${item.year}-${item.title}`}
-                  item={item}
-                  index={index}
-                />
-              ))}
-            </div>
+        {/* --- Timeline --- */}
+        <div className="relative border-t border-gray-800 pt-24">
+          <div className="absolute left-1/2 -top-3 -translate-x-1/2 bg-black px-4 text-gray-600 font-mono text-xs tracking-widest uppercase">
+            Execution_History
           </div>
+
+          <TimelineLedger data={TIMELINE_DATA} />
         </div>
+
       </div>
     </section>
   );
