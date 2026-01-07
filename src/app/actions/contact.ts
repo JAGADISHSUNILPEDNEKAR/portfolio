@@ -41,7 +41,15 @@ export async function sendContactEmail(prevState: ContactState, formData: FormDa
 
     // 2. Send email
     try {
-        const { error } = await resend.emails.send({
+        console.log('Attempting to send email with Resend...');
+        if (!process.env.RESEND_API_KEY) {
+            console.error('CRITICAL: RESEND_API_KEY is missing in environment variables');
+            return { success: false, error: 'Configuration Error: API Key missing' };
+        }
+
+        console.log(`Sending from: onboarding@resend.dev to: jsphere16@gmail.com`);
+
+        const { data, error } = await resend.emails.send({
             from: 'Portfolio Contact <onboarding@resend.dev>', // Use default resend sender for testing
             to: ['jsphere16@gmail.com'],
             subject: `New Message from ${name} (Portfolio)`,
@@ -56,14 +64,14 @@ export async function sendContactEmail(prevState: ContactState, formData: FormDa
         });
 
         if (error) {
-            console.error('Resend Error:', error);
-            // More specific error handling if needed
-            return { success: false, error: 'Failed to send message. Please try again or contact directly via email.' };
+            console.error('Resend API Returned Error:', JSON.stringify(error, null, 2));
+            return { success: false, error: error.message || 'Failed to send message.' };
         }
 
+        console.log('Email sent successfully:', data);
         return { success: true };
     } catch (err) {
-        console.error('Server Error:', err);
+        console.error('Unexpected Server Error during email send:', err);
         return { success: false, error: 'Internal server error. Please try again later.' };
     }
 }
