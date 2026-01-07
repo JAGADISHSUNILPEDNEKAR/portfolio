@@ -96,7 +96,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable} dark`}
       suppressHydrationWarning
     >
       <head>
@@ -104,39 +104,13 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
-
-        {/* Prevent flash of wrong theme before hydration */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('portfolio-theme');
-                  if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                    document.documentElement.classList.add('dark');
-                    document.documentElement.style.colorScheme = 'dark';
-                  } else {
-                    document.documentElement.style.colorScheme = 'light';
-                  }
-                } catch (_) {}
-              })();
-            `,
-          }}
-        />
       </head>
       <body
         suppressHydrationWarning
-        className={`${inter.className} antialiased bg-white text-gray-900 dark:bg-slate-950 dark:text-white`}
+        className={`${inter.className} antialiased bg-slate-950 text-white`}
       >
         <ErrorBoundary>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            storageKey="portfolio-theme"
-          >
-            {children}
-          </ThemeProvider>
+          {children}
         </ErrorBoundary>
       </body>
     </html>
