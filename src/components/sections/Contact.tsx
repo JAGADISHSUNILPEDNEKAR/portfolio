@@ -85,7 +85,7 @@ const Contact = () => {
 
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
     setSubmitStatus('success');
     setIsSubmitting(false);
     setFormState({ name: '', email: '', message: '' });
@@ -163,7 +163,7 @@ const Contact = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl md:text-7xl font-bold mb-6">
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6">
             <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Let&apos;s Connect
             </span>
@@ -232,13 +232,12 @@ const Contact = () => {
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className={`w-full py-4 rounded-lg font-semibold text-white transition-all duration-300 flex items-center justify-center gap-2 ${
-                  isSubmitting
+                className={`w-full py-4 rounded-lg font-semibold text-white transition-all duration-300 flex items-center justify-center gap-2 ${isSubmitting
                     ? 'bg-gray-600 cursor-not-allowed'
                     : submitStatus === 'success'
-                    ? 'bg-green-600'
-                    : 'bg-gradient-to-r from-pink-600 to-purple-600 hover:shadow-xl hover:shadow-pink-500/25'
-                }`}
+                      ? 'bg-green-600'
+                      : 'bg-gradient-to-r from-pink-600 to-purple-600 hover:shadow-xl hover:shadow-pink-500/25'
+                  }`}
               >
                 {isSubmitting ? (
                   <>
@@ -324,7 +323,7 @@ const Contact = () => {
                 <span className="text-green-400 font-medium">Currently Available</span>
               </div>
               <p className="text-gray-300 text-sm">
-                I&apos;m open to freelance opportunities and interesting projects. 
+                I&apos;m open to freelance opportunities and interesting projects.
                 Feel free to reach out if you have something in mind!
               </p>
             </motion.div>

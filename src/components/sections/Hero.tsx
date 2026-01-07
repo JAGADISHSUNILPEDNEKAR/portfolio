@@ -77,13 +77,13 @@ const ScrambleText = ({ text, className }: { text: string; className?: string })
 const GlitchTitle = ({ text }: { text: string }) => {
   return (
     <div className="relative group perspective-text text-center cursor-default">
-      <div className="absolute top-0 left-0 w-full h-full text-7xl md:text-9xl lg:text-[11rem] leading-none font-black tracking-tighter text-red-500 opacity-0 group-hover:opacity-70 group-hover:animate-glitch-1 mix-blend-screen select-none pointer-events-none transform translate-x-[2px]">
+      <div className="absolute top-0 left-0 w-full h-full text-5xl sm:text-7xl md:text-9xl lg:text-[11rem] leading-none font-black tracking-tighter text-red-500 opacity-0 group-hover:opacity-70 group-hover:animate-glitch-1 mix-blend-screen select-none pointer-events-none transform translate-x-[2px]">
         {text}
       </div>
-      <div className="absolute top-0 left-0 w-full h-full text-7xl md:text-9xl lg:text-[11rem] leading-none font-black tracking-tighter text-blue-500 opacity-0 group-hover:opacity-70 group-hover:animate-glitch-2 mix-blend-screen select-none pointer-events-none transform -translate-x-[2px]">
+      <div className="absolute top-0 left-0 w-full h-full text-5xl sm:text-7xl md:text-9xl lg:text-[11rem] leading-none font-black tracking-tighter text-blue-500 opacity-0 group-hover:opacity-70 group-hover:animate-glitch-2 mix-blend-screen select-none pointer-events-none transform -translate-x-[2px]">
         {text}
       </div>
-      <h1 className="relative text-7xl md:text-9xl lg:text-[11rem] leading-none font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/50 select-none mix-blend-overlay z-10">
+      <h1 className="relative text-5xl sm:text-7xl md:text-9xl lg:text-[11rem] leading-none font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/50 select-none mix-blend-overlay z-10">
         <ScrambleText text={text} />
       </h1>
     </div>
@@ -133,7 +133,7 @@ const Hero: React.FC = () => {
     <motion.section
       id="home"
       ref={containerRef}
-      className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black text-white"
+      className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden bg-black text-white py-20 md:py-0"
       onMouseMove={handleMouseMove}
       initial="initial"
       animate="animate"
@@ -177,19 +177,20 @@ const Hero: React.FC = () => {
             x: useTransform(smoothX, [-1, 1], [-20, 20]),
             y: useTransform(smoothY, [-1, 1], [-20, 20]),
           }}
+          className="w-full flex justify-center scale-75 sm:scale-90 md:scale-100"
         >
           <GlitchTitle text={PERSONAL_INFO.name} />
         </motion.div>
 
         {/* Subtitle */}
         <motion.div
-          className="mt-8 overflow-hidden"
+          className="mt-8 overflow-hidden text-center max-w-[90vw]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
           <div className="relative inline-block group">
-            <span className="font-mono text-sm md:text-xl tracking-[0.5em] text-white/60 group-hover:text-emerald-400 transition-colors duration-300">
+            <span className="font-mono text-sm sm:text-base md:text-xl tracking-[0.2em] sm:tracking-[0.5em] text-white/60 group-hover:text-emerald-400 transition-colors duration-300 break-words">
               {PERSONAL_INFO.title}
             </span>
             <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-emerald-400 group-hover:w-full transition-all duration-500 ease-out"></span>
@@ -199,17 +200,17 @@ const Hero: React.FC = () => {
 
         {/* Actions & Socials */}
         <motion.div
-          className="mt-20 flex flex-col items-center gap-10 relative z-20"
+          className="mt-16 md:mt-20 flex flex-col items-center gap-8 md:gap-10 relative z-20"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5, duration: 0.8 }}
         >
           {/* Action Buttons */}
-          <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 w-full sm:w-auto px-6 sm:px-0">
             <Magnetic>
               <a
                 href="#projects"
-                className="relative px-8 py-4 bg-white text-black font-bold font-mono tracking-wider uppercase overflow-hidden hover:scale-105 transition-transform duration-300 group rounded-full flex items-center justify-center"
+                className="relative w-full sm:w-auto px-8 py-4 bg-white text-black font-bold font-mono tracking-wider uppercase overflow-hidden hover:scale-105 transition-transform duration-300 group rounded-full flex items-center justify-center text-sm md:text-base"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   View My Work <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -223,7 +224,7 @@ const Hero: React.FC = () => {
                 href={GLOBAL_PERSONAL_INFO.resume}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 border border-white/20 hover:bg-white/5 font-mono text-sm tracking-wider uppercase transition-all duration-300 hover:border-emerald-500/50 hover:text-emerald-400 backdrop-blur-sm rounded-full flex items-center gap-2 group"
+                className="w-full sm:w-auto px-8 py-4 border border-white/20 hover:bg-white/5 font-mono text-sm md:text-base tracking-wider uppercase transition-all duration-300 hover:border-emerald-500/50 hover:text-emerald-400 backdrop-blur-sm rounded-full flex items-center justify-center gap-2 group"
               >
                 Download Resume <Download className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
               </a>

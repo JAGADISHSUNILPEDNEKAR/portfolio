@@ -208,8 +208,8 @@ const Projects = () => {
     },
   ];
 
-  const filteredProjects = selectedCategory === 'all' 
-    ? projects 
+  const filteredProjects = selectedCategory === 'all'
+    ? projects
     : projects.filter(p => p.category === selectedCategory);
 
   useEffect(() => {
@@ -264,7 +264,7 @@ const Projects = () => {
         </div>
 
         {/* Grid Pattern */}
-        <div 
+        <div
           className="absolute inset-0 opacity-5"
           style={{
             backgroundImage: `linear-gradient(${SECTION_THEMES.projects.accent}22 1px, transparent 1px),
@@ -324,11 +324,10 @@ const Projects = () => {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`filter-btn px-6 py-2 rounded-full font-medium transition-all duration-300 ${
-                selectedCategory === category
+              className={`filter-btn px-6 py-2 rounded-full font-medium transition-all duration-300 ${selectedCategory === category
                   ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/25'
                   : 'bg-slate-800/50 text-gray-400 hover:text-white hover:bg-slate-700/50 border border-slate-700'
-              }`}
+                }`}
             >
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </button>
@@ -337,7 +336,7 @@ const Projects = () => {
 
         {/* Horizontal Scroll Container */}
         <div className="relative">
-          <div 
+          <div
             ref={scrollContainerRef}
             className="flex gap-8 overflow-x-auto pb-8 snap-x snap-mandatory scroll-smooth scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-amber-500/50 hover:scrollbar-thumb-amber-500/70"
             style={{
@@ -353,7 +352,7 @@ const Projects = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -100 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex-shrink-0 w-[350px] md:w-[400px] snap-center group relative"
+                  className="flex-shrink-0 w-[85vw] sm:w-[350px] md:w-[400px] snap-center group relative"
                   onMouseEnter={() => setHoveredProject(project.id)}
                   onMouseLeave={() => setHoveredProject(null)}
                 >
@@ -366,7 +365,7 @@ const Projects = () => {
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      
+
                       {/* Overlay with Actions */}
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <div className="absolute bottom-4 left-4 right-4 flex gap-3">
