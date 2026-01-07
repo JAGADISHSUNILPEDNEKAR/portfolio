@@ -14,6 +14,12 @@ const config: Config = {
         mono: ['var(--font-mono)'],
         serif: ['var(--font-serif)'],
       },
+      colors: {
+        'deep-void': '#000000',
+        'tungsten': '#1a1a1a',
+        'electric-cyan': '#00f3ff',
+        'molten-amber': '#ffb300',
+      },
       animation: {
         'gradient': 'gradient 6s ease infinite',
         'float': 'float 6s ease-in-out infinite',
