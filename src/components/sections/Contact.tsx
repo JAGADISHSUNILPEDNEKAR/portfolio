@@ -1,17 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
-import { SECTION_THEMES } from '@/lib/constants';
-import { Send, Mail, MapPin, Phone, Github, Linkedin, Twitter } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
+import { useState, useRef, useEffect } from 'react';
+import { motion, useMotionValue, useMotionTemplate, AnimatePresence } from 'framer-motion';
+import { Send, Mail, MapPin, Phone, Github, Linkedin, Twitter, AlertTriangle, ShieldCheck, Terminal, Cpu } from 'lucide-react';
+import { MagneticInput } from '@/components/ui/MagneticInput';
+import { MintBlockButton } from '@/components/ui/MintBlockButton';
 
 const Contact = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -20,71 +15,22 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Floating particles animation
-      gsap.to('.contact-particle', {
-        y: -200,
-        x: (index) => Math.sin(index) * 50,
-        opacity: 0,
-        duration: 4,
-        stagger: {
-          each: 0.3,
-          repeat: -1,
-        },
-        ease: 'power1.out',
-      });
+  // Mouse position for background field lines
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-      // Form fields animation
-      gsap.fromTo(
-        '.form-field',
-        {
-          opacity: 0,
-          x: -30,
-        },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: formRef.current,
-            start: 'top 75%',
-          },
-        }
-      );
-
-      // Contact info animation
-      gsap.fromTo(
-        '.contact-info',
-        {
-          opacity: 0,
-          x: 30,
-        },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '.contact-info-container',
-            start: 'top 75%',
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // Simulate blockchain transaction delay
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     setSubmitStatus('success');
     setIsSubmitting(false);
@@ -95,238 +41,195 @@ const Contact = () => {
   };
 
   const contactInfo = [
-    { icon: Mail, label: 'Email', value: 'jsphere16@gmail.com', href: 'mailto:jsphere16@gmail.com' },
-    { icon: Phone, label: 'Phone', value: '+(91)-8073671781', href: 'tel:+918073671781' },
-    { icon: MapPin, label: 'Location', value: 'Bangalore,India', href: null },
-  ];
-
-  const socialLinks = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
+    { icon: Mail, label: 'SECURE_CHANNEL', value: 'jsphere16@gmail.com', href: 'mailto:jsphere16@gmail.com' },
+    { icon: Phone, label: 'VOICE_LINK', value: '+(91)-8073671781', href: 'tel:+918073671781' },
+    { icon: MapPin, label: 'BASE_COORDS', value: 'Bangalore, MK', href: null },
   ];
 
   return (
     <section
       id="contact"
-      ref={sectionRef}
-      className={`relative py-32 overflow-hidden ${SECTION_THEMES.contact.background}`}
+      className="relative min-h-screen py-32 overflow-hidden bg-deep-void selection:bg-electric-cyan selection:text-black"
+      onMouseMove={handleMouseMove}
     >
-      {/* Return to Hero Theme Background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse animation-delay-2000" />
-        </div>
-
-        {/* Animated Particles */}
-        <div className="absolute inset-0">
-          {[...Array(10)].map((_, i) => (
-            <div
-              key={i}
-              className="contact-particle absolute w-3 h-3 bg-pink-400/30 rounded-full"
-              style={{
-                left: `${10 + i * 8}%`,
-                bottom: '10%',
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Connection Lines Animation */}
-        <svg className="absolute inset-0 w-full h-full opacity-10">
-          <motion.path
-            d="M0,200 Q400,100 800,200 T1600,200"
-            stroke="url(#gradient)"
-            strokeWidth="2"
-            fill="none"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 3, repeat: Infinity }}
-          />
-          <defs>
-            <linearGradient id="gradient">
-              <stop offset="0%" stopColor="#EC4899" />
-              <stop offset="50%" stopColor="#8B5CF6" />
-              <stop offset="100%" stopColor="#EC4899" />
-            </linearGradient>
-          </defs>
-        </svg>
+      {/* Background: Magnetic Field Lines */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+                    linear-gradient(to right, #1a1a1a 1px, transparent 1px),
+                    linear-gradient(to bottom, #1a1a1a 1px, transparent 1px)
+                `,
+            backgroundSize: '40px 40px',
+            maskImage: 'radial-gradient(circle at 50% 50%, black, transparent 80%)'
+          }}
+        />
+        {/* Dynamic Halo following mouse */}
+        <motion.div
+          className="absolute rounded-full blur-3xl opacity-30"
+          style={{
+            background: useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, var(--electric-cyan), transparent 80%)`,
+            inset: 0
+          }}
+        />
       </div>
 
       <div className="relative z-10 container mx-auto px-6">
-        {/* Section Header */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Let&apos;s Connect
-            </span>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Terminal className="w-6 h-6 text-electric-cyan animate-pulse" />
+            <span className="font-mono text-electric-cyan tracking-widest text-sm">SECURE_TRANSMISSION_PROTOCOL</span>
+          </div>
+
+          <h2 className="text-5xl md:text-7xl font-bold mb-6 font-sans text-white tracking-tighter uppercase">
+            Initiate <span className="text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan to-blue-600">Uplink</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Have a project in mind? Let&apos;s create something amazing together
+          <p className="text-xl text-slate-400 max-w-2xl mx-auto font-mono">
+            Establish a direct cryptographic connection. All messages are hashed and immutable.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Form */}
+        <div className="grid lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
+          {/* Terminal Form */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="relative"
           >
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-              <div className="form-field">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={formState.name}
-                  onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                  required
-                  className="w-full px-4 py-3 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
-                  placeholder="John Doe"
+            {/* Terminal Frame */}
+            <div className="absolute inset-0 bg-tungsten/50 backdrop-blur-sm -skew-x-2 rounded-xl border border-slate-700/50" />
+
+            <form onSubmit={handleSubmit} className="relative z-10 p-8 space-y-8 bg-black/40 rounded-xl border border-slate-800 shadow-2xl backdrop-blur-md">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500/50" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                </div>
+                <span className="text-xs font-mono text-slate-500">TERMINAL_ID: 8X-29A</span>
+              </div>
+
+              <MagneticInput
+                label="AGENT_ID (NAME)"
+                id="name"
+                value={formState.name}
+                onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                placeholder="ENTER_IDENTIFIER"
+                required
+              />
+
+              <MagneticInput
+                label="COMMS_LINK (EMAIL)"
+                id="email"
+                type="email"
+                value={formState.email}
+                onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                placeholder="ENTER_SECURE_EMAIL"
+                required
+              />
+
+              <MagneticInput
+                label="PAYLOAD (MESSAGE)"
+                id="message"
+                type="textarea"
+                value={formState.message}
+                onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                placeholder="ENTER_ENCRYPTED_DATA..."
+                required
+              />
+
+              <div className="pt-4">
+                <MintBlockButton
+                  isSubmitting={isSubmitting}
+                  isSuccess={submitStatus === 'success'}
                 />
               </div>
 
-              <div className="form-field">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formState.email}
-                  onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                  required
-                  className="w-full px-4 py-3 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
-                  placeholder="john@example.com"
-                />
+              {/* Status Footer */}
+              <div className="flex items-center justify-between text-xs font-mono text-slate-600 pt-4 border-t border-slate-800">
+                <span className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-electric-cyan" />
+                  ENCRYPTION: AES-256
+                </span>
+                <span>LATENCY: 12ms</span>
               </div>
-
-              <div className="form-field">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  rows={6}
-                  value={formState.message}
-                  onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                  required
-                  className="w-full px-4 py-3 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 resize-none"
-                  placeholder="Tell me about your project..."
-                />
-              </div>
-
-              <motion.button
-                type="submit"
-                disabled={isSubmitting}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`w-full py-4 rounded-lg font-semibold text-white transition-all duration-300 flex items-center justify-center gap-2 ${isSubmitting
-                    ? 'bg-gray-600 cursor-not-allowed'
-                    : submitStatus === 'success'
-                      ? 'bg-green-600'
-                      : 'bg-gradient-to-r from-pink-600 to-purple-600 hover:shadow-xl hover:shadow-pink-500/25'
-                  }`}
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Sending...
-                  </>
-                ) : submitStatus === 'success' ? (
-                  <>
-                    <span>✓</span>
-                    Message Sent!
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5" />
-                    Send Message
-                  </>
-                )}
-              </motion.button>
             </form>
           </motion.div>
 
-          {/* Contact Information */}
+          {/* Contact Info & Holographic Display */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="contact-info-container space-y-8"
+            className="space-y-12"
           >
-            {/* Quick Contact */}
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Get in Touch</h3>
-              <div className="space-y-4">
-                {contactInfo.map((item) => (
-                  <div key={item.label} className="contact-info flex items-center gap-4 p-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg hover:bg-slate-800/70 transition-all duration-300">
-                    <div className="w-12 h-12 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg flex items-center justify-center">
-                      <item.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-400">{item.label}</p>
-                      {item.href ? (
-                        <a href={item.href} className="text-white hover:text-pink-400 transition-colors">
-                          {item.value}
-                        </a>
-                      ) : (
-                        <p className="text-white">{item.value}</p>
-                      )}
-                    </div>
+            {/* Info Cards */}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-white mb-8 font-mono tracking-widest flex items-center gap-4">
+                <span className="w-8 h-[2px] bg-electric-cyan" />
+                NOISE_CHANNELS
+              </h3>
+
+              {contactInfo.map((item, idx) => (
+                <div key={item.label} className="group flex items-center gap-6 p-6 bg-tungsten/30 border border-slate-800 rounded-lg hover:border-electric-cyan/50 hover:bg-tungsten/50 transition-all duration-300">
+                  <div className="w-12 h-12 bg-deep-void border border-slate-700 rounded-lg flex items-center justify-center group-hover:shadow-[0_0_15px_rgba(0,243,255,0.2)] transition-all">
+                    <item.icon className="w-6 h-6 text-slate-400 group-hover:text-electric-cyan transition-colors" />
                   </div>
-                ))}
-              </div>
+                  <div>
+                    <p className="text-xs font-mono text-electric-cyan mb-1">{item.label}</p>
+                    {item.href ? (
+                      <a href={item.href} className="text-lg text-slate-300 hover:text-white transition-colors font-medium">
+                        {item.value}
+                      </a>
+                    ) : (
+                      <p className="text-lg text-slate-300 font-medium">{item.value}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
 
-            {/* Social Links */}
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Follow Me</h3>
-              <div className="flex gap-4">
-                {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.1, y: -5 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-12 h-12 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:border-pink-500 hover:bg-slate-800/70 transition-all duration-300"
-                    aria-label={social.label}
-                  >
-                    <social.icon className="w-5 h-5" />
-                  </motion.a>
-                ))}
+            {/* System Status Hologram */}
+            <div className="relative p-8 bg-gradient-to-b from-slate-900/50 to-transparent border border-slate-800 rounded-xl overflow-hidden group">
+              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 mix-blend-overlay" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-electric-cyan/50 to-transparent opacity-50" />
+
+              <div className="relative z-10 space-y-4">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                  <span className="font-mono text-green-500 text-sm tracking-widest">SYSTEM_ONLINE</span>
+                </div>
+
+                <div className="space-y-2 font-mono text-xs text-slate-500">
+                  <div className="flex justify-between">
+                    <span>UPTIME</span>
+                    <span className="text-slate-300">99.98%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>NODES_ACTIVE</span>
+                    <span className="text-slate-300">8,421</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>LAST_BLOCK</span>
+                    <span className="text-slate-300">#93,420</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-6 border-t border-slate-800">
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    "The network is always listening. Every message is a transaction of intent. Broadcast yours."
+                  </p>
+                </div>
               </div>
             </div>
-
-            {/* Availability Status */}
-            <motion.div
-              className="p-6 bg-gradient-to-r from-pink-600/10 to-purple-600/10 backdrop-blur-sm border border-pink-500/30 rounded-xl"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <span className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-green-400 font-medium">Currently Available</span>
-              </div>
-              <p className="text-gray-300 text-sm">
-                I&apos;m open to freelance opportunities and interesting projects.
-                Feel free to reach out if you have something in mind!
-              </p>
-            </motion.div>
           </motion.div>
         </div>
       </div>
