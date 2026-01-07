@@ -184,6 +184,7 @@ const Hero: React.FC = () => {
 
   return (
     <motion.section
+      id="home"
       ref={containerRef}
       className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black text-white perspective-1000"
       onMouseMove={handleMouseMove}
