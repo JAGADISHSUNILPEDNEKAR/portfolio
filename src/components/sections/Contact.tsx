@@ -1,19 +1,33 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useActionState } from 'react';
 import { motion, useMotionValue, useMotionTemplate, AnimatePresence } from 'framer-motion';
 import { Send, Mail, MapPin, Phone, Github, Linkedin, Twitter, AlertTriangle, ShieldCheck, Terminal, Cpu } from 'lucide-react';
 import { MagneticInput } from '@/components/ui/MagneticInput';
 import { MintBlockButton } from '@/components/ui/MintBlockButton';
+import { sendContactEmail, ContactState } from '@/app/actions/contact';
+
+const startState: ContactState = { success: false, error: '' };
 
 const Contact = () => {
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [state, formAction, isPending] = useActionState(sendContactEmail, startState);
+
+  // Keep track of values for preserving input on error (optional, or just let browser handle native form data)
+  // For controlled inputs in React 19 server actions, typically we rely on `defaultValue` unless we need client-side logic.
+  // We'll rely on browser default behavior + key reset on success.
+
+  const [initialValues, setInitialValues] = useState({ name: '', email: '', message: '' });
+
+  useEffect(() => {
+    if (state.success) {
+      // Reset form potentially? Ref could be better but setState triggers re-render 
+      // which might be needed for the success animation state clearing
+      const timer = setTimeout(() => {
+        // Reset logic if needed, but the button handles the 'success' view.
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [state.success]);
 
   // Mouse position for background field lines
   const mouseX = useMotionValue(0);
@@ -25,20 +39,6 @@ const Contact = () => {
     mouseY.set(clientY - top);
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate blockchain transaction delay
-    await new Promise(resolve => setTimeout(resolve, 3000));
-
-    setSubmitStatus('success');
-    setIsSubmitting(false);
-    setFormState({ name: '', email: '', message: '' });
-
-    // Reset status after 5 seconds
-    setTimeout(() => setSubmitStatus('idle'), 5000);
-  };
 
   const contactInfo = [
     { icon: Mail, label: 'SECURE_CHANNEL', value: 'jsphere16@gmail.com', href: 'mailto:jsphere16@gmail.com' },
@@ -107,7 +107,7 @@ const Contact = () => {
             {/* Terminal Frame */}
             <div className="absolute inset-0 bg-tungsten/50 backdrop-blur-sm -skew-x-2 rounded-xl border border-slate-700/50" />
 
-            <form onSubmit={handleSubmit} className="relative z-10 p-8 space-y-8 bg-black/40 rounded-xl border border-slate-800 shadow-2xl backdrop-blur-md">
+            <form action={formAction} className="relative z-10 p-8 space-y-8 bg-black/40 rounded-xl border border-slate-800 shadow-2xl backdrop-blur-md">
               <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500/50" />
@@ -117,12 +117,20 @@ const Contact = () => {
                 <span className="text-xs font-mono text-slate-500">TERMINAL_ID: 8X-29A</span>
               </div>
 
+              {state.error && (
+                <div className="p-3 mb-4 bg-red-500/10 border border-red-500/50 rounded flex items-center gap-2 text-red-400 text-sm font-mono">
+                  <AlertTriangle className="w-4 h-4" />
+                  {state.error}
+                </div>
+              )}
+
               <MagneticInput
                 label="AGENT_ID (NAME)"
                 id="name"
-                value={formState.name}
-                onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                name="name"
+                defaultValue={initialValues?.name}
                 placeholder="ENTER_IDENTIFIER"
+                error={state.fieldErrors?.name?.[0]}
                 required
               />
 
@@ -130,9 +138,10 @@ const Contact = () => {
                 label="COMMS_LINK (EMAIL)"
                 id="email"
                 type="email"
-                value={formState.email}
-                onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                name="email"
+                defaultValue={initialValues?.email}
                 placeholder="ENTER_SECURE_EMAIL"
+                error={state.fieldErrors?.email?.[0]}
                 required
               />
 
@@ -140,16 +149,17 @@ const Contact = () => {
                 label="PAYLOAD (MESSAGE)"
                 id="message"
                 type="textarea"
-                value={formState.message}
-                onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                name="message"
+                defaultValue={initialValues?.message}
                 placeholder="ENTER_ENCRYPTED_DATA..."
+                error={state.fieldErrors?.message?.[0]}
                 required
               />
 
               <div className="pt-4">
                 <MintBlockButton
-                  isSubmitting={isSubmitting}
-                  isSuccess={submitStatus === 'success'}
+                  isSubmitting={isPending}
+                  isSuccess={state.success || false}
                 />
               </div>
 
@@ -159,7 +169,7 @@ const Contact = () => {
                   <ShieldCheck className="w-4 h-4 text-electric-cyan" />
                   ENCRYPTION: AES-256
                 </span>
-                <span>LATENCY: 12ms</span>
+                <span>LATENCY: {isPending ? '---' : '12ms'}</span>
               </div>
             </form>
           </motion.div>
